@@ -27,6 +27,10 @@ public class AddTaskActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                TextView countText = findViewById(R.id.text_total_tasks_counter);
+                Integer count = Integer.parseInt(String.valueOf(countText.getText()));
+                count++;
+                countText.setText(count.toString());
                 TextView submittedText = findViewById(R.id.add_task_submitted_text);
                 submittedText.setAlpha(0f);
                 submittedText.setVisibility(View.VISIBLE);

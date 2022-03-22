@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginBottom="64dp"
-        android:text="@string/total_tasks_0"
+        android:text="@string/total_tasks"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -99,4 +99,13 @@
         android:visibility="gone"
         app:layout_constraintBaseline_toBaselineOf="@+id/button_add_task_add_task"
         app:layout_constraintStart_toEndOf="@+id/button_add_task_add_task" />
+
+    <TextView
+        android:id="@+id/text_total_tasks_counter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/_0"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
+        app:layout_constraintStart_toEndOf="@+id/textView4" />
 </androidx.constraintlayout.widget.ConstraintLayout>

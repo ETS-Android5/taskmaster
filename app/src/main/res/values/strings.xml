@@ -5,7 +5,7 @@
     <string name="my_tasks">My Tasks</string>
     <string name="all_tasks_title">All Tasks</string>
     <string name="add_task_title">Add Task</string>
-    <string name="total_tasks_0">Total tasks: 0</string>
+    <string name="total_tasks">Total tasks:</string>
     <string name="task_title">Task Title</string>
     <string name="task_description">Task Description</string>
     <string name="my_task">My Task</string>
@@ -14,4 +14,5 @@
     <string name="my_tasks_image">my tasks image</string>
     <string name="all_tasks_image">all tasks image</string>
     <string name="submitted">Submitted!</string>
+    <string name="_0">0</string>
 </resources>

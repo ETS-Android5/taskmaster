@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="252dp"
         android:layout_marginBottom="64dp"
-        android:text="all tasks"
+        android:text="@string/all_tasks"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="252dp"
         android:layout_marginBottom="64dp"
-        android:text="add task"
+        android:text="@string/add_task"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_main_all_tasks"
         app:layout_constraintHorizontal_bias="0.5"
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
-        android:text="My Tasks"
+        android:text="@string/my_tasks"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
@@ -52,8 +52,10 @@
         android:layout_width="281dp"
         android:layout_height="239dp"
         android:layout_marginTop="188dp"
+        android:contentDescription="@string/my_tasks_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:srcCompat="@android:mipmap/sym_def_app_icon" />
+        app:srcCompat="@android:mipmap/sym_def_app_icon"
+        tools:ignore="ImageContrastCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

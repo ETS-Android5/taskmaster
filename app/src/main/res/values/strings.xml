@@ -16,4 +16,8 @@
     <string name="submitted">Submitted!</string>
     <string name="_0">0</string>
     <string name="lorum_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tempus imperdiet nulla malesuada pellentesque elit eget gravida cum sociis. Sed elementum tempus egestas sed sed risus pretium.</string>
+    <string name="code_challenge_28">Code Challenge 28</string>
+    <string name="lab_28">Lab 28</string>
+    <string name="learning_journal_28">Learning Journal 28</string>
+    <string name="no_task_name">No Task Name</string>
 </resources>

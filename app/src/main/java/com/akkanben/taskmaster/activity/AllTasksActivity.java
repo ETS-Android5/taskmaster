@@ -1,8 +1,10 @@
-package com.akkanben.taskmaster;
+package com.akkanben.taskmaster.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.akkanben.taskmaster.R;
 
 public class AllTasksActivity extends AppCompatActivity {
 

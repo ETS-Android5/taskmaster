@@ -1,10 +1,12 @@
-package com.akkanben.taskmaster;
+package com.akkanben.taskmaster.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.akkanben.taskmaster.R;
 
 public class TaskDetailActivity extends AppCompatActivity {
 

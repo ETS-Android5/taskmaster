@@ -19,7 +19,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String usernameString = preferences.getString(USERNAME_TAG, String.valueOf(R.string.my_task));
+        String usernameString = preferences.getString(USERNAME_TAG, "");
 
         if (!usernameString.isEmpty()) {
             EditText usernameEditText = findViewById(R.id.edit_text_settings_activity_username);

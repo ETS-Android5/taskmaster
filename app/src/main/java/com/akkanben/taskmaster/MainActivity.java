@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -27,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
         setupAddTaskButton();
         setupAllTasksButton();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String usernameString = preferences.getString(SettingsActivity.USERNAME_TAG, String.valueOf(R.string.my_task));
+        ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.usernames_tasks, usernameString));
+    }
+
 
     private void setupTaskButtons() {
         Button taskOneButton = findViewById(R.id.button_main_activity_task_one);

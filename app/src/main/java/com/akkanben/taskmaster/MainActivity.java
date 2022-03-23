@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         String usernameString = preferences.getString(SettingsActivity.USERNAME_TAG, getString(R.string.my_tasks));
-        if (usernameString.equals(""))
+        if (usernameString.equals("") || usernameString.equals(getString(R.string.my_tasks)))
             ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.my_tasks));
         else
             ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.usernames_tasks, usernameString));

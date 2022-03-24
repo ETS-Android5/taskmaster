@@ -30,24 +30,29 @@ TaskMaster is a task manager app for Android.
   - The value in the textedit field also reflects the updated change when the user returns.
   - If the user hasn't saved a username yet or changes the value to an empty string, the main activity displays "My Tasks".
 
+### Lab 28
 
-Implements basic activities for adding a task, viewing all tasks, and the main app screen.
+- Added a model for tasks with an enum for possible task status.
+- Replaced static task buttons on the homepage with a RecyclerView list of task buttons.
+  - Tasks are currently reading for a hard-coded list of tasks.
+  - Task buttons are dynamically colored based on their task status.
+- Updated the task details activity to include task status and description for the specific task.
 
 ## Activities
 
 ### Homepage 
 
-The homepage has a list of 3 hardcoded tasks that link to dynamically titled task detail activities. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity.
+The homepage displays a RecyclerView list of tasks that link to dynamically created task detail activities. Details include title, description and status. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity.
 
-[![main page](./readme-images/lab-27/main_01.png)](./readme-images/lab-27/main_01.png)
+[![main page](./readme-images/lab-28/main_01.png)](./readme-images/lab-28/main_01.png)
 
 ### Task Details
 
-The task details activity display a title the is taken from the corresponding button on the homepage. Additionally there is some placeholder lorem ipsum description of the task.
+The task details activity displays a title, status, and description for each task. The data for the details screen comes from a hard-coded list of tasks but the details page is dynamically created via the button on the RecyclerView on the homepage.
 
-[![main page](./readme-images/lab-27/task_details_01.png)](./readme-images/lab-27/task_details_01.png)
-[![main page](./readme-images/lab-27/task_details_02.png)](./readme-images/lab-27/task_details_02.png)
-[![main page](./readme-images/lab-27/task_details_03.png)](./readme-images/lab-27/task_details_03.png)
+[![main page](./readme-images/lab-28/task_detail_01.png)](./readme-images/lab-28/task_detail_01.png)
+[![main page](./readme-images/lab-28/task_detail_02.png)](./readme-images/lab-28/task_detail_02.png)
+[![main page](./readme-images/lab-28/task_detail_03.png)](./readme-images/lab-28/task_detail_03.png)
 
 ### Settings
 
@@ -55,7 +60,7 @@ The settings page allows a user to change their username and save it in SharedPr
 
 [![main page](./readme-images/lab-27/settings_01.png)](./readme-images/lab-27/settings_01.png)
 [![main page](./readme-images/lab-27/settings_02.png)](./readme-images/lab-27/settings_02.png)
-[![main page](./readme-images/lab-27/settings_03.png)](./readme-images/lab-27/settings_03.png)
+[![main page](./readme-images/lab-28/settings_01.png)](./readme-images/lab-28/settings_01.png)
 
 ### Add a Task
 

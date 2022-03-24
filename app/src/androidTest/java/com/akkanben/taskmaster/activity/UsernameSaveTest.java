@@ -1,9 +1,11 @@
-package com.akkanben.taskmaster;
+package com.akkanben.taskmaster.activity;
 
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -20,7 +22,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.akkanben.taskmaster.activity.MainActivity;
+import com.akkanben.taskmaster.R;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -31,64 +33,56 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TaskDetailTitleTest {
+public class UsernameSaveTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void taskDetailTitleTest() {
-        ViewInteraction materialButton = onView(
-                allOf(withId(R.id.button_main_activity_task_one), withText("Code Challenge 28"),
+    public void usernameSaveTest() {
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.main_activity_my_tasks_text_view), withText("My Tasks"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        textView.check(matches(withText("My Tasks")));
+
+        ViewInteraction floatingActionButton = onView(
+                allOf(withId(R.id.main_activity_settings_floating_action_button),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                3),
+                                2),
+                        isDisplayed()));
+        floatingActionButton.perform(click());
+
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.edit_text_settings_activity_username),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
+                        isDisplayed()));
+        appCompatEditText.perform(replaceText("Ben"), closeSoftKeyboard());
+
+        ViewInteraction materialButton = onView(
+                allOf(withId(R.id.button_settings_activity_save), withText("Save"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                1),
                         isDisplayed()));
         materialButton.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Code Challenge 28"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView.check(matches(withText("Code Challenge 28")));
-
         pressBack();
-
-        ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.button_main_activity_task_two), withText("Lab 28"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                4),
-                        isDisplayed()));
-        materialButton2.perform(click());
 
         ViewInteraction textView2 = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Lab 28"),
+                allOf(withId(R.id.main_activity_my_tasks_text_view), withText("Ben's Tasks"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView2.check(matches(withText("Lab 28")));
-
-        pressBack();
-
-        ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.button_main_activity_task_three), withText("Learning Journal 28"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                5),
-                        isDisplayed()));
-        materialButton3.perform(click());
-
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Learning Journal 28"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView3.check(matches(withText("Learning Journal 28")));
+        textView2.check(matches(withText("Ben's Tasks")));
     }
 
     private static Matcher<View> childAtPosition(

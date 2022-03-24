@@ -1,6 +1,8 @@
 package com.akkanben.taskmaster.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,12 +13,19 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.akkanben.taskmaster.R;
+import com.akkanben.taskmaster.adapter.TaskListRecyclerViewAdapter;
+import com.akkanben.taskmaster.model.Task;
+import com.akkanben.taskmaster.model.TaskStatus;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String TASK_NAME_EXTRA_TAG = "taskName";
     SharedPreferences preferences;
+    TaskListRecyclerViewAdapter taskListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setupSettingsFloatingActionButton();
         setupAddTaskButton();
         setupAllTasksButton();
+        setupTaskListRecyclerView();
     }
 
     @Override
@@ -107,5 +117,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(goToAllTasksIntent);
             }
         });
+    }
+
+    private void setupTaskListRecyclerView() {
+        RecyclerView taskListRecyclerView = findViewById(R.id.recycler_view_main_activity_task_list);
+        RecyclerView.LayoutManager taskListLayoutManager = new LinearLayoutManager(this);
+        taskListRecyclerView.setLayoutManager(taskListLayoutManager);
+        List<Task> taskList = new ArrayList<>();
+        taskList.add(new Task("Lab: 28 - RecyclerView", "It's a lab. Fun.", TaskStatus.IN_PROGRESS));
+        taskList.add(new Task("Code Challenge: Class 28", "Quick! Sort!", TaskStatus.COMPLETE));
+        taskList.add(new Task("Learning Journal: Class 28", "Journal time.", TaskStatus.ASSIGNED));
+        taskList.add(new Task("Read: Class 29", "It' about Room", TaskStatus.ASSIGNED));
+        taskListAdapter = new TaskListRecyclerViewAdapter(taskList, this);
+        taskListRecyclerView.setAdapter(taskListAdapter);
     }
 }

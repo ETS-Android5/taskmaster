@@ -49,39 +49,5 @@ public class MainActivityTest {
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
         imageButton.check(matches(isDisplayed()));
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.main_activity_my_tasks_text_view), withText("My Tasks"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView.check(matches(isDisplayed()));
-
-        ViewInteraction viewGroup = onView(
-                allOf(withId(R.id.frameLayout),
-                        withParent(allOf(withId(R.id.recycler_view_main_activity_task_list),
-                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
-                        isDisplayed()));
-        viewGroup.check(matches(isDisplayed()));
-
-        ViewInteraction viewGroup2 = onView(
-                allOf(withId(R.id.frameLayout),
-                        withParent(allOf(withId(R.id.recycler_view_main_activity_task_list),
-                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
-                        isDisplayed()));
-        viewGroup2.check(matches(isDisplayed()));
-
-        ViewInteraction viewGroup3 = onView(
-                allOf(withId(R.id.frameLayout),
-                        withParent(allOf(withId(R.id.recycler_view_main_activity_task_list),
-                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
-                        isDisplayed()));
-        viewGroup3.check(matches(isDisplayed()));
-
-        ViewInteraction viewGroup4 = onView(
-                allOf(withId(R.id.frameLayout),
-                        withParent(allOf(withId(R.id.recycler_view_main_activity_task_list),
-                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
-                        isDisplayed()));
-        viewGroup4.check(matches(isDisplayed()));
     }
 }

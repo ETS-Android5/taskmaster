@@ -1,0 +1,94 @@
+package com.akkanben.taskmaster.adapter;
+
+import static com.akkanben.taskmaster.R.color.purple_200;
+import static com.akkanben.taskmaster.R.color.purple_500;
+import static com.akkanben.taskmaster.R.color.purple_700;
+import static com.akkanben.taskmaster.R.color.teal_200;
+import static com.akkanben.taskmaster.activity.MainActivity.TASK_DESCRIPTION_EXTRA_TAG;
+import static com.akkanben.taskmaster.activity.MainActivity.TASK_NAME_EXTRA_TAG;
+import static com.akkanben.taskmaster.activity.MainActivity.TASK_STATUS_EXTRA_TAG;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.akkanben.taskmaster.R;
+import com.akkanben.taskmaster.activity.MainActivity;
+import com.akkanben.taskmaster.activity.TaskDetailActivity;
+import com.akkanben.taskmaster.model.Task;
+import com.akkanben.taskmaster.model.TaskStatus;
+
+import java.util.List;
+
+public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter {
+
+    List<Task> taskList;
+    Context callingActivity;
+
+
+    public TaskListRecyclerViewAdapter(List<Task> taskList, Context callingActivity) {
+        this.taskList = taskList;
+        this.callingActivity = callingActivity;
+    }
+
+    @NonNull
+    @Override
+    public TaskListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View taskFragment = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_task_list, parent, false);
+        return new TaskListViewHolder(taskFragment);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Button taskFragmentButton = holder.itemView.findViewById(R.id.button_task_list_fragment_task_list_item);
+        String taskName = taskList.get(position).getTitle();
+        taskFragmentButton.setText(taskName);
+        @ColorInt int color;
+        color = setStatusColor(taskList.get(position).getStatus());
+        taskFragmentButton.setBackgroundColor(color);
+        taskFragmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToTaskDetails = new Intent(callingActivity, TaskDetailActivity.class);
+                goToTaskDetails.putExtra(TASK_NAME_EXTRA_TAG, taskName);
+                goToTaskDetails.putExtra(TASK_DESCRIPTION_EXTRA_TAG, taskList.get(position).getBody());
+                goToTaskDetails.putExtra(TASK_STATUS_EXTRA_TAG, taskList.get(position).getStatus().toString());
+                callingActivity.startActivity(goToTaskDetails);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return taskList.size();
+    }
+
+    public static class TaskListViewHolder extends RecyclerView.ViewHolder {
+        public TaskListViewHolder(View fragmentItemView) {
+            super(fragmentItemView);
+        }
+    }
+
+    private @ColorInt int setStatusColor(TaskStatus status) {
+        switch(status) {
+            case COMPLETE:
+                return callingActivity.getColor(purple_200);
+            case ASSIGNED:
+                return callingActivity.getColor(purple_500);
+            case IN_PROGRESS:
+                return callingActivity.getColor(purple_700);
+            default:
+                return callingActivity.getColor(teal_200);
+        }
+    }
+
+}

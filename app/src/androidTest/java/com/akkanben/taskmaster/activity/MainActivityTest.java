@@ -1,11 +1,7 @@
-package com.akkanben.taskmaster;
+package com.akkanben.taskmaster.activity;
 
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -14,17 +10,15 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import com.akkanben.taskmaster.R;
+
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,10 +32,22 @@ public class MainActivityTest {
 
     @Test
     public void mainActivityTest() {
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.main_activity_my_tasks_text_view), withText("My Tasks"),
+        ViewInteraction button = onView(
+                allOf(withId(R.id.button_main_add_task), withText("ADD TASK"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView.check(matches(withText("My Tasks")));
+        button.check(matches(isDisplayed()));
+
+        ViewInteraction button2 = onView(
+                allOf(withId(R.id.button_main_all_tasks), withText("ALL TASKS"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        button2.check(matches(isDisplayed()));
+
+        ViewInteraction imageButton = onView(
+                allOf(withId(R.id.main_activity_settings_floating_action_button),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        imageButton.check(matches(isDisplayed()));
     }
 }

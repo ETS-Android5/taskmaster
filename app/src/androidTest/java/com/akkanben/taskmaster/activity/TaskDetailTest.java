@@ -1,4 +1,4 @@
-package com.akkanben.taskmaster;
+package com.akkanben.taskmaster.activity;
 
 
 import static androidx.test.espresso.Espresso.onView;
@@ -20,6 +20,8 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.akkanben.taskmaster.R;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -29,64 +31,72 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TaskDetailTitleTest {
+public class TaskDetailTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void taskDetailTitleTest() {
+    public void taskDetailTest() {
         ViewInteraction materialButton = onView(
-                allOf(withId(R.id.button_main_activity_task_one), withText("Code Challenge 28"),
+                allOf(withId(R.id.button_task_list_fragment_task_list_item), withText("Lab: 28 - RecyclerView"),
                         childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                3),
+                                allOf(withId(R.id.frameLayout),
+                                        childAtPosition(
+                                                withId(R.id.recycler_view_main_activity_task_list),
+                                                0)),
+                                0),
                         isDisplayed()));
         materialButton.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Code Challenge 28"),
+                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Lab: 28 - RecyclerView"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView.check(matches(withText("Code Challenge 28")));
+        textView.check(matches(withText("Lab: 28 - RecyclerView")));
+
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.text_view_task_detail_status), withText("IN_PROGRESS"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        textView2.check(matches(withText("IN_PROGRESS")));
+
+        ViewInteraction textView3 = onView(
+                allOf(withId(R.id.text_view_task_detail_description), withText("It's a lab. Fun."),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        textView3.check(matches(withText("It's a lab. Fun.")));
 
         pressBack();
 
         ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.button_main_activity_task_two), withText("Lab 28"),
+                allOf(withId(R.id.button_task_list_fragment_task_list_item), withText("Code Challenge: Class 28"),
                         childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                4),
+                                allOf(withId(R.id.frameLayout),
+                                        childAtPosition(
+                                                withId(R.id.recycler_view_main_activity_task_list),
+                                                1)),
+                                0),
                         isDisplayed()));
         materialButton2.perform(click());
 
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Lab 28"),
+        ViewInteraction textView4 = onView(
+                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Code Challenge: Class 28"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView2.check(matches(withText("Lab 28")));
+        textView4.check(matches(withText("Code Challenge: Class 28")));
 
-        pressBack();
-
-        ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.button_main_activity_task_three), withText("Learning Journal 28"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                5),
-                        isDisplayed()));
-        materialButton3.perform(click());
-
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Learning Journal 28"),
+        ViewInteraction textView5 = onView(
+                allOf(withId(R.id.text_view_task_detail_status), withText("COMPLETE"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView3.check(matches(withText("Learning Journal 28")));
+        textView5.check(matches(withText("COMPLETE")));
+
+        ViewInteraction textView6 = onView(
+                allOf(withId(R.id.text_view_task_detail_description), withText("Quick! Sort!"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        textView6.check(matches(withText("Quick! Sort!")));
     }
 
     private static Matcher<View> childAtPosition(

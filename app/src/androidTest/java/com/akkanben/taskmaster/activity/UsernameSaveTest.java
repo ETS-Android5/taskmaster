@@ -1,4 +1,4 @@
-package com.akkanben.taskmaster;
+package com.akkanben.taskmaster.activity;
 
 
 import static androidx.test.espresso.Espresso.onView;
@@ -22,6 +22,8 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.akkanben.taskmaster.R;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -38,13 +40,19 @@ public class UsernameSaveTest {
 
     @Test
     public void usernameSaveTest() {
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.main_activity_my_tasks_text_view), withText("My Tasks"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        textView.check(matches(withText("My Tasks")));
+
         ViewInteraction floatingActionButton = onView(
                 allOf(withId(R.id.main_activity_settings_floating_action_button),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                6),
+                                2),
                         isDisplayed()));
         floatingActionButton.perform(click());
 
@@ -70,59 +78,11 @@ public class UsernameSaveTest {
 
         pressBack();
 
-        ViewInteraction textView = onView(
+        ViewInteraction textView2 = onView(
                 allOf(withId(R.id.main_activity_my_tasks_text_view), withText("Ben's Tasks"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView.check(matches(withText("Ben's Tasks")));
-
-        ViewInteraction floatingActionButton2 = onView(
-                allOf(withId(R.id.main_activity_settings_floating_action_button),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                6),
-                        isDisplayed()));
-        floatingActionButton2.perform(click());
-
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.edit_text_settings_activity_username), withText("Ben"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        appCompatEditText2.perform(replaceText(""));
-
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.edit_text_settings_activity_username),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        appCompatEditText3.perform(closeSoftKeyboard());
-
-        ViewInteraction materialButton2 = onView(
-                allOf(withId(R.id.button_settings_activity_save), withText("Save"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                1),
-                        isDisplayed()));
-        materialButton2.perform(click());
-
-        pressBack();
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.main_activity_my_tasks_text_view), withText("My Tasks"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView2.check(matches(withText("My Tasks")));
+        textView2.check(matches(withText("Ben's Tasks")));
     }
 
     private static Matcher<View> childAtPosition(

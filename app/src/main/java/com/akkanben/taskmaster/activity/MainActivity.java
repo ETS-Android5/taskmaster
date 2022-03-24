@@ -24,6 +24,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TASK_NAME_EXTRA_TAG = "taskName";
+    public static final String TASK_STATUS_EXTRA_TAG = "taskStatus";
+    public static final String TASK_DESCRIPTION_EXTRA_TAG = "taskDescription";
     SharedPreferences preferences;
     TaskListRecyclerViewAdapter taskListAdapter;
 

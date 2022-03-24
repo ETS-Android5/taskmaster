@@ -18,17 +18,25 @@
         tools:text="TASK-DETAIL" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/text_view_task_detail_description"
         android:layout_width="335dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="128dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="64dp"
-        android:text="@string/lorum_ipsum"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_view_task_detail_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/task_detail_activity_task_title_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/task_detail_activity_task_title_text_view"
+        tools:text="STATUS" />
 </androidx.constraintlayout.widget.ConstraintLayout>

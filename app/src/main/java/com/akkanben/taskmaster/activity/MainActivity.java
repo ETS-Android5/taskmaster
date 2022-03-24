@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        setupTaskButtons();
         setupSettingsFloatingActionButton();
         setupAddTaskButton();
         setupAllTasksButton();
@@ -47,43 +46,6 @@ public class MainActivity extends AppCompatActivity {
             ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.my_tasks));
         else
             ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.usernames_tasks, usernameString));
-    }
-
-
-    private void setupTaskButtons() {
-        Button taskOneButton = findViewById(R.id.button_main_activity_task_one);
-        Button taskTwoButton = findViewById(R.id.button_main_activity_task_two);
-        Button taskThreeButton = findViewById(R.id.button_main_activity_task_three);
-        taskOneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goToTaskOneIntent = new Intent(MainActivity.this, TaskDetailActivity.class);
-                Button clickedButton = (Button) view;
-                String taskName = clickedButton.getText().toString();
-                goToTaskOneIntent.putExtra(TASK_NAME_EXTRA_TAG, taskName);
-                startActivity(goToTaskOneIntent);
-            }
-        });
-        taskTwoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goToTaskTwoIntent = new Intent(MainActivity.this, TaskDetailActivity.class);
-                Button clickedButton = (Button) view;
-                String taskName = clickedButton.getText().toString();
-                goToTaskTwoIntent.putExtra(TASK_NAME_EXTRA_TAG, taskName);
-                startActivity(goToTaskTwoIntent);
-            }
-        });
-        taskThreeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goToTaskThreeIntent= new Intent(MainActivity.this, TaskDetailActivity.class);
-                Button clickedButton = (Button) view;
-                String taskName = clickedButton.getText().toString();
-                goToTaskThreeIntent.putExtra(TASK_NAME_EXTRA_TAG, taskName);
-                startActivity(goToTaskThreeIntent);
-            }
-        });
     }
 
     private void setupSettingsFloatingActionButton() {
@@ -124,6 +86,14 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager taskListLayoutManager = new LinearLayoutManager(this);
         taskListRecyclerView.setLayoutManager(taskListLayoutManager);
         List<Task> taskList = new ArrayList<>();
+        taskList.add(new Task("Lab: 28 - RecyclerView", "It's a lab. Fun.", TaskStatus.IN_PROGRESS));
+        taskList.add(new Task("Code Challenge: Class 28", "Quick! Sort!", TaskStatus.COMPLETE));
+        taskList.add(new Task("Learning Journal: Class 28", "Journal time.", TaskStatus.ASSIGNED));
+        taskList.add(new Task("Read: Class 29", "It' about Room", TaskStatus.ASSIGNED));
+        taskList.add(new Task("Lab: 28 - RecyclerView", "It's a lab. Fun.", TaskStatus.IN_PROGRESS));
+        taskList.add(new Task("Code Challenge: Class 28", "Quick! Sort!", TaskStatus.COMPLETE));
+        taskList.add(new Task("Learning Journal: Class 28", "Journal time.", TaskStatus.ASSIGNED));
+        taskList.add(new Task("Read: Class 29", "It' about Room", TaskStatus.ASSIGNED));
         taskList.add(new Task("Lab: 28 - RecyclerView", "It's a lab. Fun.", TaskStatus.IN_PROGRESS));
         taskList.add(new Task("Code Challenge: Class 28", "Quick! Sort!", TaskStatus.COMPLETE));
         taskList.add(new Task("Learning Journal: Class 28", "Journal time.", TaskStatus.ASSIGNED));

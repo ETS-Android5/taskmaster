@@ -5,19 +5,18 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="96dp"
-    android:rotationX="-24"
     tools:context=".fragment.TaskListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/text_view_task_list_fragment_task_name"
+    <Button
+        android:id="@+id/button_task_list_fragment_task_list_item"
         android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:background="@color/teal_700"
-        android:textAlignment="center"
+        android:layout_height="55dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.512"
+        tools:text="TASK TITLE" />
 </androidx.constraintlayout.widget.ConstraintLayout>

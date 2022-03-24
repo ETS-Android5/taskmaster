@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,12 +40,10 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        TextView taskFragmentTextView = holder.itemView.findViewById(R.id.text_view_task_list_fragment_task_name);
+        Button taskFragmentButton = holder.itemView.findViewById(R.id.button_task_list_fragment_task_list_item);
         String taskName = taskList.get(position).getTitle();
-        taskFragmentTextView.setText(taskName);
-
-        View taskViewHolder = holder.itemView;
-        taskViewHolder.setOnClickListener(new View.OnClickListener() {
+        taskFragmentButton.setText(taskName);
+        taskFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent goToTaskDetails = new Intent(callingActivity, TaskDetailActivity.class);

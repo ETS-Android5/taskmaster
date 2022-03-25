@@ -38,21 +38,30 @@ TaskMaster is a task manager app for Android.
   - Task buttons are dynamically colored based on their task status.
 - Updated the task details activity to include task status and description for the specific task.
 
+### Lab 29
+
+- Added a local SQLite database with Android Room.
+  - New tasks are saved to the database.
+  - On resume the main page pulls the most recent task data from the database.
+- Add task activity is updated to include a spinner for task status.
+  - A snackbar appears after adding a task to let the user know the task was saved.
+  - Fields are cleared and focus it put on the title edit text for a new task to be input.
+
 ## Activities
 
 ### Homepage 
 
-The homepage displays a RecyclerView list of tasks that link to dynamically created task detail activities. Details include title, description and status. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity.
+The homepage displays a RecyclerView list of tasks that link to dynamically created task detail activities. All tasks are retrieved from a local SQLite Room database. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity.
 
-[![main page](./readme-images/lab-28/main_01.png)](./readme-images/lab-28/main_01.png)
+[![main page](./readme-images/lab-29/main_01.png)](./readme-images/lab-29/main_01.png)
 
 ### Task Details
 
-The task details activity displays a title, status, and description for each task. The data for the details screen comes from a hard-coded list of tasks but the details page is dynamically created via the button on the RecyclerView on the homepage.
+The task details activity displays a title, status, and description for each task. The data for the tasks are stored in the local Room database.
 
-[![main page](./readme-images/lab-28/task_detail_01.png)](./readme-images/lab-28/task_detail_01.png)
-[![main page](./readme-images/lab-28/task_detail_02.png)](./readme-images/lab-28/task_detail_02.png)
-[![main page](./readme-images/lab-28/task_detail_03.png)](./readme-images/lab-28/task_detail_03.png)
+[![main page](./readme-images/lab-29/task_detail_01.png)](./readme-images/lab-29/task_detail_01.png)
+[![main page](./readme-images/lab-29/task_detail_02.png)](./readme-images/lab-29/task_detail_02.png)
+[![main page](./readme-images/lab-29/task_detail_03.png)](./readme-images/lab-29/task_detail_03.png)
 
 ### Settings
 
@@ -64,10 +73,11 @@ The settings page allows a user to change their username and save it in SharedPr
 
 ### Add a Task
 
-The add a task view takes user input for a task name and description. Submitting the task displays an animated "submitted" message as well as increments the task count. These features are superficial at the moment and will reset each time the view is loaded.
+The add a task view takes user input for a task name, description and task status. Submitting a new task will display a confirmation snackbar, clear the form and place the focus on the title edit text.
 
-[![page](./readme-images/lab-26/add_task_01.png)](./readme-images/lab-26/add_task_01.png)
-[![page](./readme-images/lab-26/add_task_01.png)](./readme-images/lab-26/add_task_01.png)
+[![page](./readme-images/lab-29/add_task_01.png)](./readme-images/lab-29/add_task_01.png)
+[![page](./readme-images/lab-29/add_task_02.png)](./readme-images/lab-29/add_task_02.png)
+[![page](./readme-images/lab-29/add_task_03.png)](./readme-images/lab-29/add_task_03.png)
 
 ### All Tasks
 

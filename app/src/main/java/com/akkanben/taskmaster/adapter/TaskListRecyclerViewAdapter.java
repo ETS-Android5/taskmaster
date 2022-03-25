@@ -70,6 +70,11 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
         return taskList.size();
     }
 
+    public void updateData(List<Task> updatedList) {
+       taskList = updatedList;
+       this.notifyDataSetChanged();
+    }
+
     public static class TaskListViewHolder extends RecyclerView.ViewHolder {
         public TaskListViewHolder(View fragmentItemView) {
             super(fragmentItemView);

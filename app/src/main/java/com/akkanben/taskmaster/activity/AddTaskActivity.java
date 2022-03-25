@@ -41,15 +41,18 @@ public class AddTaskActivity extends AppCompatActivity {
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Task newTask = new Task(
-                        ((EditText)findViewById(R.id.edit_text_add_task_task_title)).getText().toString(),
-                        ((EditText)findViewById(R.id.text_edit_add_task_task_description)).getText().toString(),
+                EditText titleEditText = findViewById(R.id.edit_text_add_task_task_title);
+                EditText descriptionEditText = findViewById(R.id.text_edit_add_task_task_description);
+                        Task newTask = new Task(
+                        titleEditText.getText().toString(),
+                        descriptionEditText.getText().toString(),
                         TaskStatus.fromString(taskStatusSpinner.getSelectedItem().toString())
                 );
                 taskmasterDatabase.taskDao().insertTask(newTask);
                 ((EditText)findViewById(R.id.edit_text_add_task_task_title)).setText("");
                 ((EditText)findViewById(R.id.text_edit_add_task_task_description)).setText("");
                 taskStatusSpinner.setSelection(0);
+                titleEditText.requestFocus();
                 Snackbar.make(findViewById(R.id.view_add_task), "Task Saved", Snackbar.LENGTH_SHORT).show();
             }
         });

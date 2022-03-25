@@ -47,6 +47,9 @@ public class AddTaskActivity extends AppCompatActivity {
                         TaskStatus.fromString(taskStatusSpinner.getSelectedItem().toString())
                 );
                 taskmasterDatabase.taskDao().insertTask(newTask);
+                ((EditText)findViewById(R.id.edit_text_add_task_task_title)).setText("");
+                ((EditText)findViewById(R.id.text_edit_add_task_task_description)).setText("");
+                taskStatusSpinner.setSelection(0);
                 Snackbar.make(findViewById(R.id.view_add_task), "Task Saved", Snackbar.LENGTH_SHORT).show();
             }
         });

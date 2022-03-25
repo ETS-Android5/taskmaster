@@ -3,6 +3,7 @@ package com.akkanben.taskmaster.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.akkanben.taskmaster.R;
 import com.akkanben.taskmaster.adapter.TaskListRecyclerViewAdapter;
+import com.akkanben.taskmaster.database.TaskmasterDatabase;
 import com.akkanben.taskmaster.model.Task;
 import com.akkanben.taskmaster.model.TaskStatus;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,14 +28,25 @@ public class MainActivity extends AppCompatActivity {
     public static final String TASK_NAME_EXTRA_TAG = "taskName";
     public static final String TASK_STATUS_EXTRA_TAG = "taskStatus";
     public static final String TASK_DESCRIPTION_EXTRA_TAG = "taskDescription";
+    List<Task> taskList = new ArrayList<>();
     SharedPreferences preferences;
     TaskListRecyclerViewAdapter taskListAdapter;
+    TaskmasterDatabase taskmasterDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        taskmasterDatabase = Room.databaseBuilder(
+                getApplicationContext(),
+                TaskmasterDatabase.class,
+                "akkanben_taskmaster")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
+        taskList = taskmasterDatabase.taskDao().findAll();
         setupSettingsFloatingActionButton();
         setupAddTaskButton();
         setupAllTasksButton();
@@ -87,19 +100,11 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView taskListRecyclerView = findViewById(R.id.recycler_view_main_activity_task_list);
         RecyclerView.LayoutManager taskListLayoutManager = new LinearLayoutManager(this);
         taskListRecyclerView.setLayoutManager(taskListLayoutManager);
-        List<Task> taskList = new ArrayList<>();
         taskList.add(new Task("Lab: 28 - RecyclerView", "It's a lab. Fun.", TaskStatus.IN_PROGRESS));
-        taskList.add(new Task("Code Challenge: Class 28", "Quick! Sort!", TaskStatus.COMPLETE));
-        taskList.add(new Task("Learning Journal: Class 28", "Journal time.", TaskStatus.ASSIGNED));
-        taskList.add(new Task("Read: Class 29", "It' about Room", TaskStatus.ASSIGNED));
-        taskList.add(new Task("Lab: 28 - RecyclerView", "It's a lab. Fun.", TaskStatus.IN_PROGRESS));
-        taskList.add(new Task("Code Challenge: Class 28", "Quick! Sort!", TaskStatus.COMPLETE));
-        taskList.add(new Task("Learning Journal: Class 28", "Journal time.", TaskStatus.ASSIGNED));
-        taskList.add(new Task("Read: Class 29", "It' about Room", TaskStatus.ASSIGNED));
-        taskList.add(new Task("Lab: 28 - RecyclerView", "It's a lab. Fun.", TaskStatus.IN_PROGRESS));
-        taskList.add(new Task("Code Challenge: Class 28", "Quick! Sort!", TaskStatus.COMPLETE));
-        taskList.add(new Task("Learning Journal: Class 28", "Journal time.", TaskStatus.ASSIGNED));
-        taskList.add(new Task("Read: Class 29", "It' about Room", TaskStatus.ASSIGNED));
+//        taskList.add(new Task("Code Challenge: Class 28", "Quick! Sort!", TaskStatus.COMPLETE));
+//        taskList.add(new Task("Learning Journal: Class 28", "Journal time.", TaskStatus.ASSIGNED));
+//        taskList.add(new Task("Read: Class 29", "It' about Room", TaskStatus.ASSIGNED));
+
         taskListAdapter = new TaskListRecyclerViewAdapter(taskList, this);
         taskListRecyclerView.setAdapter(taskListAdapter);
     }

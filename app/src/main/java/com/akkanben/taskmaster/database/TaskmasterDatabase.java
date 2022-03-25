@@ -8,5 +8,5 @@ import com.akkanben.taskmaster.model.Task;
 
 @Database(entities = {Task.class}, version = 1)
 public abstract class TaskmasterDatabase extends RoomDatabase {
-    public TaskDao taskDao;
+    public abstract TaskDao taskDao();
 }

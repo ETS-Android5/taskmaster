@@ -50,7 +50,7 @@
 
     <EditText
         android:id="@+id/edit_text_add_task_task_title"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:autofillHints=""
@@ -65,11 +65,11 @@
 
     <EditText
         android:id="@+id/text_edit_add_task_task_description"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:ems="10"
-        android:hint="@string/submitted"
+        android:hint="@string/task_description"
         android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:minHeight="48dp"
@@ -99,7 +99,7 @@
 
     <Spinner
         android:id="@+id/spinner_add_task_status"
-        android:layout_width="0dp"
+        android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginStart="32dp"
         android:contentDescription="@string/task_description"

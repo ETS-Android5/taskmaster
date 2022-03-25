@@ -8,7 +8,7 @@
     tools:context=".activity.AddTaskActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/text_view_add_task_status_title"
         android:layout_width="104dp"
         android:layout_height="19dp"
         android:layout_marginTop="32dp"
@@ -75,7 +75,8 @@
         android:minHeight="48dp"
         android:textColorHint="#757575"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:ignore="DuplicateSpeakableTextCheck" />
 
     <Button
         android:id="@+id/button_add_task_add_task"
@@ -87,26 +88,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner_add_task_status" />
 
-    <TextView
-        android:id="@+id/add_task_submitted_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/submitted"
-        android:visibility="gone"
-        app:layout_constraintBaseline_toBaselineOf="@+id/button_add_task_add_task"
-        app:layout_constraintStart_toEndOf="@+id/button_add_task_add_task" />
-
     <Spinner
         android:id="@+id/spinner_add_task_status"
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginStart="32dp"
-        android:contentDescription="@string/task_description"
-        app:layout_constraintEnd_toEndOf="@+id/text_edit_add_task_task_description"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:contentDescription="@string/task_status"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_add_task_status_title"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

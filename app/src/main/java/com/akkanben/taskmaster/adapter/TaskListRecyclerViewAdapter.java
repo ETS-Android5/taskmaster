@@ -15,21 +15,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.akkanben.taskmaster.R;
-import com.akkanben.taskmaster.activity.MainActivity;
 import com.akkanben.taskmaster.activity.TaskDetailActivity;
 import com.akkanben.taskmaster.model.Task;
 import com.akkanben.taskmaster.model.TaskStatus;
 
 import java.util.List;
 
-public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter {
+public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRecyclerViewAdapter.TaskListViewHolder> {
 
     List<Task> taskList;
     Context callingActivity;
@@ -48,7 +46,7 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TaskListViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Button taskFragmentButton = holder.itemView.findViewById(R.id.button_task_list_fragment_task_list_item);
         String taskName = taskList.get(position).getTitle();
         taskFragmentButton.setText(taskName);

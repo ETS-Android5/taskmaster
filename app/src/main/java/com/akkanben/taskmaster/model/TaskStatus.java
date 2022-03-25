@@ -21,7 +21,7 @@ public enum TaskStatus {
         }
         return null;
     }
-    
+
     @NonNull
     @Override
     public String toString() {

@@ -26,7 +26,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="172dp"
         android:text="@string/task_title"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextTaskTitle"
+        app:layout_constraintBottom_toTopOf="@+id/edit_text_add_task_task_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -38,10 +38,10 @@
         android:layout_marginTop="32dp"
         android:text="@string/task_description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextTaskTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_add_task_task_title" />
 
     <EditText
-        android:id="@+id/editTextTextTaskTitle"
+        android:id="@+id/edit_text_add_task_task_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -55,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <EditText
-        android:id="@+id/editTextTextTaskDescription"
+        android:id="@+id/text_edit_add_task_task_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -76,7 +76,7 @@
         android:layout_marginTop="64dp"
         android:text="@string/add_task_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextTaskDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/text_edit_add_task_task_description" />
 
     <TextView
         android:id="@+id/textView4"

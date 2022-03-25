@@ -39,14 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        taskmasterDatabase = Room.databaseBuilder(
-                getApplicationContext(),
-                TaskmasterDatabase.class,
-                "akkanben_taskmaster")
-                .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
-                .build();
-        taskList = taskmasterDatabase.taskDao().findAll();
+        setupTaskListFromDatabase();
         setupSettingsFloatingActionButton();
         setupAddTaskButton();
         setupAllTasksButton();
@@ -61,6 +54,19 @@ public class MainActivity extends AppCompatActivity {
             ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.my_tasks));
         else
             ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.usernames_tasks, usernameString));
+        setupTaskListFromDatabase();
+    }
+
+    private void setupTaskListFromDatabase() {
+        int currentSize = taskList.size();
+        taskmasterDatabase = Room.databaseBuilder(
+                getApplicationContext(),
+                TaskmasterDatabase.class,
+                "akkanben_taskmaster")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
+        taskList = taskmasterDatabase.taskDao().findAll();
     }
 
     private void setupSettingsFloatingActionButton() {
@@ -100,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView taskListRecyclerView = findViewById(R.id.recycler_view_main_activity_task_list);
         RecyclerView.LayoutManager taskListLayoutManager = new LinearLayoutManager(this);
         taskListRecyclerView.setLayoutManager(taskListLayoutManager);
-        taskList.add(new Task("Lab: 28 - RecyclerView", "It's a lab. Fun.", TaskStatus.IN_PROGRESS));
+//        taskList.add(new Task("Lab: 28 - RecyclerView", "It's a lab. Fun.", TaskStatus.IN_PROGRESS));
 //        taskList.add(new Task("Code Challenge: Class 28", "Quick! Sort!", TaskStatus.COMPLETE));
 //        taskList.add(new Task("Learning Journal: Class 28", "Journal time.", TaskStatus.ASSIGNED));
 //        taskList.add(new Task("Read: Class 29", "It' about Room", TaskStatus.ASSIGNED));

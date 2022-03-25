@@ -15,4 +15,7 @@ public interface TaskDao {
 
    @Query("SELECT * FROM Task")
    public List<Task> findAll();
+
+   @Query("SELECT COUNT(*) FROM Task")
+   public int getTaskCount();
 }

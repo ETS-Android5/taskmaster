@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.akkanben.taskmaster.R;
+import com.akkanben.taskmaster.adapter.TaskListRecyclerViewAdapter;
 import com.akkanben.taskmaster.database.TaskmasterDatabase;
 import com.akkanben.taskmaster.model.Task;
 import com.akkanben.taskmaster.model.TaskStatus;
@@ -24,6 +25,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private final int FADE_IN_SPEED = 500;
     private final int FADE_OUT_SPEED = 1200;
     TaskmasterDatabase taskmasterDatabase;
+    TaskListRecyclerViewAdapter taskListRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class AddTaskActivity extends AppCompatActivity {
                         TaskStatus.IN_PROGRESS
                 );
                 taskmasterDatabase.taskDao().insertTask(newTask);
+                taskListRecyclerViewAdapter.notifyItemInserted(taskmasterDatabase.taskDao().getTaskCount());
                 // TODO make snackbar
             }
         });

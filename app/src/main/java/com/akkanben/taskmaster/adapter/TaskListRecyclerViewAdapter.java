@@ -70,9 +70,12 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
         return taskList.size();
     }
 
-    public void updateData(List<Task> updatedList) {
-       taskList = updatedList;
-       this.notifyDataSetChanged();
+    public void updateListData(List<Task> updatedList) {
+        int taskListSize = taskList.size();
+        taskList = updatedList;
+        while(taskListSize < updatedList.size())
+            this.notifyItemInserted(taskListSize++);
+        //TODO add for removals
     }
 
     public static class TaskListViewHolder extends RecyclerView.ViewHolder {

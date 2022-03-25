@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         else
             ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.usernames_tasks, usernameString));
         setupTaskListFromDatabase();
-        taskListAdapter.updateData(taskList);
+        taskListAdapter.updateListData(taskList);
     }
 
     private void setupTaskListFromDatabase() {

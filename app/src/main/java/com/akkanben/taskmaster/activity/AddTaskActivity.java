@@ -1,6 +1,9 @@
 package com.akkanben.taskmaster.activity;
 
+import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBackground;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.room.Room;
 
 import android.os.Bundle;
@@ -24,6 +27,8 @@ public class AddTaskActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
+        ConstraintLayout constraintLayout = findViewById(R.id.view_add_task);
+        setupAnimatedBackground(constraintLayout);
         taskmasterDatabase = Room.databaseBuilder(
                getApplicationContext(),
                TaskmasterDatabase.class,

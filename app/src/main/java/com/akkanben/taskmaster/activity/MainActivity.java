@@ -1,6 +1,9 @@
 package com.akkanben.taskmaster.activity;
 
+import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBackground;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        ConstraintLayout constraintLayout = findViewById(R.id.main_activity_layout);
+        setupAnimatedBackground(constraintLayout);
         setupTaskListFromDatabase();
         setupSettingsFloatingActionButton();
         setupAddTaskButton();
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         setupTaskListFromDatabase();
         taskListAdapter.updateListData(taskList);
     }
+
 
     private void setupTaskListFromDatabase() {
         taskmasterDatabase = Room.databaseBuilder(

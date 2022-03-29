@@ -1,6 +1,7 @@
 package com.akkanben.taskmaster.activity;
 
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -22,6 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.room.Room;
+import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
@@ -29,29 +32,53 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.akkanben.taskmaster.R;
+import com.akkanben.taskmaster.dao.TaskDao;
+import com.akkanben.taskmaster.database.TaskmasterDatabase;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TaskDetailsTest {
+public class TaskDetailTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class, false, false);
+
+    @Before
+    public void prep() {
+        clearDatabase();
+        mActivityTestRule.launchActivity(null);
+    }
+
+    public void clearDatabase() {
+        TaskmasterDatabase taskmasterDatabase;
+        taskmasterDatabase = Room.databaseBuilder(
+                getApplicationContext(),
+                TaskmasterDatabase.class,
+                "akkanben_taskmaster")
+                .allowMainThreadQueries()
+                .build();
+        taskmasterDatabase.taskDao().clearTasks();
+    }
 
     @Test
-    public void taskDetailsTest() {
+    public void taskDetailTest() {
+
+
         ViewInteraction materialButton = onView(
                 allOf(withId(R.id.button_main_add_task), withText("add task"),
                         childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
+                                allOf(withId(R.id.main_activity_layout),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
                                 1),
                         isDisplayed()));
         materialButton.perform(click());
@@ -65,9 +92,20 @@ public class TaskDetailsTest {
                                                 0)),
                                 4),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Test Title"), closeSoftKeyboard());
+        appCompatEditText.perform(click());
 
         ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.edit_text_add_task_task_title),
+                        childAtPosition(
+                                allOf(withId(R.id.view_add_task),
+                                        childAtPosition(
+                                                withId(android.R.id.content),
+                                                0)),
+                                4),
+                        isDisplayed()));
+        appCompatEditText2.perform(replaceText("This is only a Test"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.text_edit_add_task_task_description),
                         childAtPosition(
                                 allOf(withId(R.id.view_add_task),
@@ -76,7 +114,7 @@ public class TaskDetailsTest {
                                                 0)),
                                 5),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("Test Description"), closeSoftKeyboard());
+        appCompatEditText3.perform(replaceText("A nice description of the test."), closeSoftKeyboard());
 
         ViewInteraction appCompatSpinner = onView(
                 allOf(withId(R.id.spinner_add_task_status), withContentDescription("Task Status"),
@@ -110,7 +148,7 @@ public class TaskDetailsTest {
         pressBack();
 
         ViewInteraction materialButton3 = onView(
-                allOf(withId(R.id.button_task_list_fragment_task_list_item), withText("Test Title"),
+                allOf(withId(R.id.button_task_list_fragment_task_list_item), withText("This is only a Test"),
                         childAtPosition(
                                 allOf(withId(R.id.frameLayout),
                                         childAtPosition(
@@ -121,22 +159,26 @@ public class TaskDetailsTest {
         materialButton3.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Test Title"),
-                        withParent(withParent(withId(android.R.id.content))),
+                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("This is only a Test"),
+                        withParent(allOf(withId(R.id.task_detail_layout),
+                                withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        textView.check(matches(withText("Test Title")));
+        textView.check(matches(withText("This is only a Test")));
 
         ViewInteraction textView2 = onView(
                 allOf(withId(R.id.text_view_task_detail_status), withText("In Progress"),
-                        withParent(withParent(withId(android.R.id.content))),
+                        withParent(allOf(withId(R.id.task_detail_layout),
+                                withParent(withId(android.R.id.content)))),
                         isDisplayed()));
         textView2.check(matches(withText("In Progress")));
 
         ViewInteraction textView3 = onView(
-                allOf(withId(R.id.text_view_task_detail_description), withText("Test Description"),
-                        withParent(withParent(withId(android.R.id.content))),
+                allOf(withId(R.id.text_view_task_detail_description), withText("A nice description of the test."),
+                        withParent(allOf(withId(R.id.task_detail_layout),
+                                withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        textView3.check(matches(withText("Test Description")));
+        textView3.check(matches(withText("A nice description of the test.")));
+        clearDatabase();
     }
 
     private static Matcher<View> childAtPosition(

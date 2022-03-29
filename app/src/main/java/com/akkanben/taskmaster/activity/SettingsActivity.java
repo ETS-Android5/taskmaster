@@ -1,6 +1,9 @@
 package com.akkanben.taskmaster.activity;
 
+import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBackground;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,6 +23,8 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        ConstraintLayout constraintLayout = findViewById(R.id.settings_layout);
+        setupAnimatedBackground(constraintLayout);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String usernameString = preferences.getString(USERNAME_TAG, "");
 

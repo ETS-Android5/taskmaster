@@ -1,12 +1,24 @@
 package com.akkanben.taskmaster.activity;
 
+import static com.akkanben.taskmaster.R.color.purple_200;
+import static com.akkanben.taskmaster.R.color.purple_500;
+import static com.akkanben.taskmaster.R.color.purple_700;
+import static com.akkanben.taskmaster.R.color.teal_200;
+import static com.akkanben.taskmaster.model.TaskStatus.ASSIGNED;
+import static com.akkanben.taskmaster.model.TaskStatus.IN_PROGRESS;
+import static com.akkanben.taskmaster.model.TaskStatus.fromString;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.akkanben.taskmaster.R;
+import com.akkanben.taskmaster.model.TaskStatus;
+
+import java.util.Objects;
 
 public class TaskDetailActivity extends AppCompatActivity {
 
@@ -14,7 +26,6 @@ public class TaskDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
-
         Intent callingIntent = getIntent();
         String taskNameString = null;
         String taskStatusString = null;
@@ -23,6 +34,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             taskNameString = callingIntent.getStringExtra(MainActivity.TASK_NAME_EXTRA_TAG);
             taskStatusString = callingIntent.getStringExtra(MainActivity.TASK_STATUS_EXTRA_TAG);
             taskDescriptionString = callingIntent.getStringExtra(MainActivity.TASK_DESCRIPTION_EXTRA_TAG);
+            setupStatusBackgroundColor(taskStatusString);
         }
         TextView taskNameTextView = findViewById(R.id.task_detail_activity_task_title_text_view);
         TextView taskStatusTextView = findViewById(R.id.text_view_task_detail_status);
@@ -39,5 +51,24 @@ public class TaskDetailActivity extends AppCompatActivity {
             taskDescriptionTextView.setText(taskDescriptionString);
         else
             taskDescriptionTextView.setText(R.string.no_task_name);
+    }
+
+    private void setupStatusBackgroundColor(String statusString) {
+        ConstraintLayout constraintLayout = findViewById(R.id.task_detail_layout);
+        TaskStatus status = fromString(statusString);
+        switch(Objects.requireNonNull(status)) {
+            case COMPLETE:
+                constraintLayout.setBackgroundResource(R.drawable.activity_detail_background_complete);
+                break;
+            case ASSIGNED:
+                constraintLayout.setBackgroundResource(R.drawable.activity_detail_background_assigned);
+                break;
+            case IN_PROGRESS:
+                constraintLayout.setBackgroundResource(R.drawable.activity_detail_background_in_progress);
+                break;
+            default:
+                constraintLayout.setBackgroundResource(R.drawable.activity_detail_background_new);
+                break;
+        }
     }
 }

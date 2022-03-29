@@ -40,13 +40,8 @@ public class UsernameSaveTest {
 
     @Test
     public void usernameSaveTest() {
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.main_activity_my_tasks_text_view), withText("My Tasks"),
-                        withParent(withParent(withId(android.R.id.content))),
-                        isDisplayed()));
-        textView.check(matches(withText("My Tasks")));
 
-        ViewInteraction floatingActionButton = onView(
+        ViewInteraction floatingSettingsButton = onView(
                 allOf(withId(R.id.main_activity_settings_floating_action_button),
                         childAtPosition(
                                 childAtPosition(
@@ -54,9 +49,9 @@ public class UsernameSaveTest {
                                         0),
                                 2),
                         isDisplayed()));
-        floatingActionButton.perform(click());
+        floatingSettingsButton.perform(click());
 
-        ViewInteraction appCompatEditText = onView(
+        ViewInteraction usernameEditText = onView(
                 allOf(withId(R.id.edit_text_settings_activity_username),
                         childAtPosition(
                                 childAtPosition(
@@ -64,9 +59,9 @@ public class UsernameSaveTest {
                                         0),
                                 2),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Ben"), closeSoftKeyboard());
+        usernameEditText.perform(replaceText(""), closeSoftKeyboard());
 
-        ViewInteraction materialButton = onView(
+        ViewInteraction saveButton = onView(
                 allOf(withId(R.id.button_settings_activity_save), withText("Save"),
                         childAtPosition(
                                 childAtPosition(
@@ -74,15 +69,34 @@ public class UsernameSaveTest {
                                         0),
                                 1),
                         isDisplayed()));
-        materialButton.perform(click());
+        saveButton.perform(click());
 
         pressBack();
 
-        ViewInteraction textView2 = onView(
+        ViewInteraction usernameTitleTextView = onView(
+                allOf(withId(R.id.main_activity_my_tasks_text_view), withText("My Tasks"),
+                        withParent(withParent(withId(android.R.id.content))),
+                        isDisplayed()));
+        usernameTitleTextView.check(matches(withText("My Tasks")));
+
+        floatingSettingsButton.perform(click());
+        usernameEditText.perform(replaceText("Ben"), closeSoftKeyboard());
+        saveButton.perform(click());
+
+        pressBack();
+
+        ViewInteraction usernameTitleTextView2 = onView(
                 allOf(withId(R.id.main_activity_my_tasks_text_view), withText("Ben's Tasks"),
                         withParent(withParent(withId(android.R.id.content))),
                         isDisplayed()));
-        textView2.check(matches(withText("Ben's Tasks")));
+        usernameTitleTextView2.check(matches(withText("Ben's Tasks")));
+        floatingSettingsButton.perform(click());
+        usernameEditText.perform(replaceText(""), closeSoftKeyboard());
+        saveButton.perform(click());
+
+        pressBack();
+
+        usernameTitleTextView.check(matches(withText("My Tasks")));
     }
 
     private static Matcher<View> childAtPosition(

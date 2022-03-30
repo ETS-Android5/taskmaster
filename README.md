@@ -55,11 +55,22 @@ TaskMaster is a task manager app for Android.
 - Added more robust Espresso tests for the main, add task, and settings activities.
   - Tests clear data before testing and remove any data created post test.
 
+### Lab 32
+
+- Removes local Room database.
+- Removes local models.
+- Adds cloud Amplify database.
+  - Adds GraphQL schema and Amplify models.
+  - RecyclerView is filled from an Amplify api query.
+  - Add task activity uses Amplify api to add items to the cloud.
+- Adds EnumUtil class to allow for continued usage of TaskStatus enums.
+- Tests reworked to use Amplify cloud database.
+
 ## Activities
 
 ### Homepage 
 
-The homepage displays a RecyclerView list of tasks that link to dynamically created task detail activities. All tasks are retrieved from a local SQLite Room database. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity. The background slowly blends two backgrounds.
+The homepage displays a RecyclerView list of tasks that link to dynamically created task detail activities. All tasks are retrieved from an AWS Amplify database. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity. The background slowly blends two backgrounds.
 
 [![main page](./readme-images/lab-31/main_01.png)](./readme-images/lab-31/main_01.png)
 [![main page](./readme-images/lab-31/main_02.png)](./readme-images/lab-31/main_02.png)
@@ -67,29 +78,29 @@ The homepage displays a RecyclerView list of tasks that link to dynamically crea
 
 ### Task Details
 
-The task details activity displays a title, status, and description for each task. The data for the tasks are stored in the local Room database. The task background also changes with the status of the task (same colors as main page buttons).
+The task details activity displays a title, status, and description for each task. The data for the tasks are stored in the cloud via an Amplify database. The task background also changes with the status of the task (same colors as main page buttons).
 
-[![main page](./readme-images/lab-31/task_detail_01.png)](./readme-images/lab-31/task_detail_01.png)
-[![main page](./readme-images/lab-31/task_detail_02.png)](./readme-images/lab-31/task_detail_02.png)
-[![main page](./readme-images/lab-31/task_detail_03.png)](./readme-images/lab-31/task_detail_03.png)
+[![task page](./readme-images/lab-31/task_detail_01.png)](./readme-images/lab-31/task_detail_01.png)
+[![task page](./readme-images/lab-31/task_detail_02.png)](./readme-images/lab-31/task_detail_02.png)
+[![task page](./readme-images/lab-31/task_detail_03.png)](./readme-images/lab-31/task_detail_03.png)
 
 ### Settings
 
 The settings page allows a user to change their username and save it in SharedPreferences. The saved username is reflected on the homepage after saving one. Submitting an empty string will revert the display back to "My Tasks". Background animates in the same way the main activity animates.
 
-[![main page](./readme-images/lab-31/settings_01.png)](./readme-images/lab-31/settings_01.png)
-[![main page](./readme-images/lab-31/settings_02.png)](./readme-images/lab-31/settings_02.png)
+[![settings page](./readme-images/lab-31/settings_1.png)](./readme-images/lab-31/settings_1.png)
+[![settings page](./readme-images/lab-31/settings_2.png)](./readme-images/lab-31/settings_2.png)
 
 ### Add a Task
 
-The add a task view takes user input for a task name, description and task status. Submitting a new task will display a confirmation snackbar, clear the form and place the focus on the title edit text.
+The add a task view takes user input for a task name, description and task status. Submitting a new task will display a confirmation snackbar, clear the form and place the focus on the title edit text. New tasks are saved in the cloud and visible immediately after returning to the homepage.
 
-[![page](./readme-images/lab-31/add_task_01.png)](./readme-images/lab-31/add_task_01.png)
-[![page](./readme-images/lab-31/add_task_02.png)](./readme-images/lab-31/add_task_02.png)
-[![page](./readme-images/lab-31/add_task_03.png)](./readme-images/lab-31/add_task_03.png)
+[![add page](./readme-images/lab-31/add_task_01.png)](./readme-images/lab-31/add_task_01.png)
+[![add page](./readme-images/lab-31/add_task_02.png)](./readme-images/lab-31/add_task_02.png)
+[![add page](./readme-images/lab-31/add_task_03.png)](./readme-images/lab-31/add_task_03.png)
 
 ### All Tasks
 
 The all tasks view will someday be home to a list of current tasks. Currently there is just a placeholder image and the title.
 
-[![page](./readme-images/lab-26/all_tasks_01.png)](./readme-images/lab-26/all_tasks_01.png)
+[![all page](./readme-images/lab-26/all_tasks_01.png)](./readme-images/lab-26/all_tasks_01.png)

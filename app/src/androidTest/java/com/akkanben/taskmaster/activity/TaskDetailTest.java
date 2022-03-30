@@ -15,16 +15,16 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.amazonaws.mobile.auth.core.internal.util.ThreadUtils.runOnUiThread;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.room.Room;
-import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
@@ -32,8 +32,10 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.akkanben.taskmaster.R;
-import com.akkanben.taskmaster.dao.TaskDao;
-import com.akkanben.taskmaster.database.TaskmasterDatabase;
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -43,6 +45,9 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -58,14 +63,21 @@ public class TaskDetailTest {
     }
 
     public void clearDatabase() {
-        TaskmasterDatabase taskmasterDatabase;
-        taskmasterDatabase = Room.databaseBuilder(
-                getApplicationContext(),
-                TaskmasterDatabase.class,
-                "akkanben_taskmaster")
-                .allowMainThreadQueries()
-                .build();
-        taskmasterDatabase.taskDao().clearTasks();
+        List<Task> taskList = new ArrayList<>();
+        Amplify.API.query(
+                ModelQuery.list(Task.class),
+                success -> {
+                    Log.i("test", "Read products successfully");
+                    for (Task task : success.getData()) {
+                        Amplify.API.mutate(
+                                ModelMutation.delete(task),
+                                deletionSuccess -> Log.i("test", "Test.clearDatabase(): deleted a task"),
+                                deletionFailure -> Log.i("test", "Test.clearDatabase(): failed to delete a task")
+                        );
+                    }
+                },
+                failure -> Log.i("test", "Failed to read products")
+        );
     }
 
     @Test

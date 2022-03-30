@@ -1,11 +1,7 @@
 package com.akkanben.taskmaster.model;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
-@Entity
 public class Task {
-    @PrimaryKey(autoGenerate = true)
     public long id;
     String title;
     String body;

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,8 +17,8 @@ import android.widget.TextView;
 
 import com.akkanben.taskmaster.R;
 import com.akkanben.taskmaster.adapter.TaskListRecyclerViewAdapter;
-import com.akkanben.taskmaster.database.TaskmasterDatabase;
 import com.akkanben.taskmaster.model.Task;
+import com.akkanben.taskmaster.model.TaskStatus;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -33,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     List<Task> taskList = new ArrayList<>();
     SharedPreferences preferences;
     TaskListRecyclerViewAdapter taskListAdapter;
-    TaskmasterDatabase taskmasterDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         ConstraintLayout constraintLayout = findViewById(R.id.main_activity_layout);
+
+        Task testTask = new Task("Test", "This is only a test", TaskStatus.NEW);
+        taskList.add(testTask);
+
         setupAnimatedBackground(constraintLayout);
         setupTaskListFromDatabase();
         setupSettingsFloatingActionButton();
@@ -63,13 +65,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupTaskListFromDatabase() {
-        taskmasterDatabase = Room.databaseBuilder(
-                getApplicationContext(),
-                TaskmasterDatabase.class,
-                "akkanben_taskmaster")
-                .allowMainThreadQueries()
-                .build();
-        taskList = taskmasterDatabase.taskDao().findAll();
+        //TODO: setup Dynamo
+//        taskmasterDatabase = Room.databaseBuilder(
+//                getApplicationContext(),
+//                TaskmasterDatabase.class,
+//                "akkanben_taskmaster")
+//                .allowMainThreadQueries()
+//                .build();
+//        taskList = taskmasterDatabase.taskDao().findAll();
     }
 
     private void setupSettingsFloatingActionButton() {

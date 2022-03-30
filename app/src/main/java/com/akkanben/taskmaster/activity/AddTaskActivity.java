@@ -4,7 +4,6 @@ import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBack
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,14 +13,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.akkanben.taskmaster.R;
-import com.akkanben.taskmaster.database.TaskmasterDatabase;
 import com.akkanben.taskmaster.model.Task;
 import com.akkanben.taskmaster.model.TaskStatus;
 import com.google.android.material.snackbar.Snackbar;
 
 public class AddTaskActivity extends AppCompatActivity {
-
-    TaskmasterDatabase taskmasterDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +25,14 @@ public class AddTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_task);
         ConstraintLayout constraintLayout = findViewById(R.id.view_add_task);
         setupAnimatedBackground(constraintLayout);
-        taskmasterDatabase = Room.databaseBuilder(
-               getApplicationContext(),
-               TaskmasterDatabase.class,
-               "akkanben_taskmaster")
-               .allowMainThreadQueries()
-               .build();
+
+        //TODO: change to dynamo DB
+//        taskmasterDatabase = Room.databaseBuilder(
+//               getApplicationContext(),
+//               TaskmasterDatabase.class,
+//               "akkanben_taskmaster")
+//               .allowMainThreadQueries()
+//               .build();
         Spinner taskStatusSpinner = findViewById(R.id.spinner_add_task_status);
         taskStatusSpinner.setAdapter(new ArrayAdapter<>(
                 this,
@@ -53,7 +51,6 @@ public class AddTaskActivity extends AppCompatActivity {
                         descriptionEditText.getText().toString(),
                         TaskStatus.fromString(taskStatusSpinner.getSelectedItem().toString())
                 );
-                taskmasterDatabase.taskDao().insertTask(newTask);
                 ((EditText)findViewById(R.id.edit_text_add_task_task_title)).setText("");
                 ((EditText)findViewById(R.id.text_edit_add_task_task_description)).setText("");
                 taskStatusSpinner.setSelection(0);

@@ -6,20 +6,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.akkanben.taskmaster.R;
 import com.akkanben.taskmaster.adapter.TaskListRecyclerViewAdapter;
-import com.akkanben.taskmaster.database.TaskmasterDatabase;
-import com.akkanben.taskmaster.model.Task;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.graphql.model.ModelMutation;
+import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.TaskStatus;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -27,13 +32,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    public static final String TAG = "main_activity_tag";
     public static final String TASK_NAME_EXTRA_TAG = "taskName";
     public static final String TASK_STATUS_EXTRA_TAG = "taskStatus";
     public static final String TASK_DESCRIPTION_EXTRA_TAG = "taskDescription";
     List<Task> taskList = new ArrayList<>();
     SharedPreferences preferences;
     TaskListRecyclerViewAdapter taskListAdapter;
-    TaskmasterDatabase taskmasterDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         ConstraintLayout constraintLayout = findViewById(R.id.main_activity_layout);
         setupAnimatedBackground(constraintLayout);
-        setupTaskListFromDatabase();
         setupSettingsFloatingActionButton();
         setupAddTaskButton();
         setupAllTasksButton();
@@ -63,13 +68,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupTaskListFromDatabase() {
-        taskmasterDatabase = Room.databaseBuilder(
-                getApplicationContext(),
-                TaskmasterDatabase.class,
-                "akkanben_taskmaster")
-                .allowMainThreadQueries()
-                .build();
-        taskList = taskmasterDatabase.taskDao().findAll();
+        //TODO: setup Dynamo
+        taskList.clear();
+        Amplify.API.query(
+                ModelQuery.list(Task.class),
+                success -> {
+                    Log.i(TAG, "Read products successfully");
+                    for (Task task : success.getData())
+                        taskList.add(task);
+                    runOnUiThread(() -> taskListAdapter.notifyDataSetChanged());
+        },
+                failure -> Log.i(TAG, "Failed to read products")
+        );
     }
 
     private void setupSettingsFloatingActionButton() {

@@ -22,8 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.akkanben.taskmaster.R;
 import com.akkanben.taskmaster.activity.TaskDetailActivity;
-import com.akkanben.taskmaster.model.Task;
-import com.akkanben.taskmaster.model.TaskStatus;
+import com.amplifyframework.datastore.generated.model.Task;
+import com.amplifyframework.datastore.generated.model.TaskStatus;
 
 import java.util.List;
 

@@ -7,7 +7,7 @@ import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.core.Amplify;
 
-public class TaskMaster extends Application {
+public class TaskMasterApplication extends Application {
     public static final String TAG = "taskmaster_application_tag";
 
     @Override

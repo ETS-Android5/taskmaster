@@ -30,6 +30,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -80,14 +81,16 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupTaskListFromDatabase() {
-        //TODO: setup Dynamo
+        String currentTeam = preferences.getString(SettingsActivity.TEAM_TAG, "All");
         taskList.clear();
         Amplify.API.query(
                 ModelQuery.list(Task.class),
                 success -> {
                     Log.i(TAG, "Read products successfully");
-                    for (Task task : success.getData())
-                        taskList.add(task);
+                    for (Task task : success.getData()) {
+                        if (currentTeam.equals("All") || task.getTeam().getName().equals(currentTeam))
+                            taskList.add(task);
+                    }
                     runOnUiThread(() -> taskListAdapter.notifyDataSetChanged());
         },
                 failure -> Log.i(TAG, "Failed to read products")

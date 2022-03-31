@@ -36,12 +36,12 @@
         android:layout_marginStart="32dp"
         android:ems="10"
         android:hint="@string/enter_username"
+        android:importantForAutofill="no"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:textColorHint="#757575"
+        android:textColorHint="#616161"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/textView9"
@@ -50,6 +50,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="96dp"
         android:text="@string/username"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -58,7 +59,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Team"
+        android:text="@string/team"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/spinner_settings_team"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_settings_activity_username" />
 
@@ -67,6 +69,7 @@
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginStart="32dp"
+        android:contentDescription="@string/settings_spinner_speakable_team"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 

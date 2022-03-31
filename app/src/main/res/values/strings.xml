@@ -15,17 +15,17 @@
     <string name="all_tasks_image">all tasks image</string>
     <string name="submitted">Submitted!</string>
     <string name="_0">0</string>
-    <string name="lorum_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tempus imperdiet nulla malesuada pellentesque elit eget gravida cum sociis. Sed elementum tempus egestas sed sed risus pretium.</string>
     <string name="code_challenge_28">Code Challenge 28</string>
     <string name="lab_28">Lab 28</string>
     <string name="learning_journal_28">Learning Journal 28</string>
     <string name="no_task_name">No Task Name</string>
     <string name="usernames_tasks">%1$s\'s Tasks</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="task_status">Task Status</string>
     <string name="settings">Settings</string>
     <string name="save">Save</string>
     <string name="enter_username">Enter username</string>
     <string name="username">Username</string>
+    <string name="add_task_speakable_team">Select Team</string>
+    <string name="team">Team</string>
+    <string name="settings_spinner_speakable_team">Select Team Filter</string>
 </resources>

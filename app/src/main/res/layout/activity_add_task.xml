@@ -34,7 +34,7 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="172dp"
+        android:layout_marginTop="128dp"
         android:text="@string/task_title"
         app:layout_constraintBottom_toTopOf="@+id/edit_text_add_task_task_title"
         app:layout_constraintStart_toStartOf="@+id/edit_text_add_task_task_title"
@@ -83,11 +83,11 @@
         android:id="@+id/button_add_task_add_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
         android:text="@string/add_task_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_add_task_status" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_add_task_team" />
 
     <Spinner
         android:id="@+id/spinner_add_task_status"
@@ -98,5 +98,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_add_task_status_title"
         tools:ignore="DuplicateSpeakableTextCheck" />
+
+    <Spinner
+        android:id="@+id/spinner_add_task_team"
+        android:layout_width="300dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Team"
+        app:layout_constraintStart_toStartOf="@+id/spinner_add_task_team"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_add_task_status" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,11 +66,21 @@ TaskMaster is a task manager app for Android.
 - Adds EnumUtil class to allow for continued usage of TaskStatus enums.
 - Tests reworked to use Amplify cloud database.
 
+### Lab 33
+
+- Add new Team feature.
+  - Tasks are part of a team when created.
+  - Currently 3 hard coded teams exist: Work, Home, Study.
+  - Spinner selector displays team choices when creating a task.
+- Update to settings activity to allow saving a current team to shared preferences.
+  - The main activity filters the recycler view based on the current saved preference.
+
+
 ## Activities
 
 ### Homepage 
 
-The homepage displays a RecyclerView list of tasks that link to dynamically created task detail activities. All tasks are retrieved from an AWS Amplify database. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity. The background slowly blends two backgrounds.
+The homepage displays a RecyclerView list of tasks that link to dynamically created task detail activities. All tasks are retrieved from an AWS Amplify database. If there is a current team set, the tasks displayed are filtered by that team. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity. The background slowly blends two backgrounds.
 
 [![main page](./readme-images/lab-31/main_01.png)](./readme-images/lab-31/main_01.png)
 [![main page](./readme-images/lab-31/main_02.png)](./readme-images/lab-31/main_02.png)
@@ -86,18 +96,19 @@ The task details activity displays a title, status, and description for each tas
 
 ### Settings
 
-The settings page allows a user to change their username and save it in SharedPreferences. The saved username is reflected on the homepage after saving one. Submitting an empty string will revert the display back to "My Tasks". Background animates in the same way the main activity animates.
+The settings page allows a user to change their username and current team and save it in SharedPreferences. The saved username is reflected on the homepage after saving one. Submitting an empty string will revert the display back to "My Tasks". The selected team behaves like a filter for the tasks displayed on the main activity. Background animates in the same way the main activity animates.
 
-[![settings page](./readme-images/lab-31/settings_1.png)](./readme-images/lab-31/settings_1.png)
+[![settings page](./readme-images/lab-33/settings_1.png)](./readme-images/lab-33/settings_1.png)
 [![settings page](./readme-images/lab-31/settings_2.png)](./readme-images/lab-31/settings_2.png)
+[![settings page](./readme-images/lab-33/settings_3.png)](./readme-images/lab-33/settings_3.png)
 
 ### Add a Task
 
-The add a task view takes user input for a task name, description and task status. Submitting a new task will display a confirmation snackbar, clear the form and place the focus on the title edit text. New tasks are saved in the cloud and visible immediately after returning to the homepage.
+The add a task view takes user input for a task name, description, task status and team. Submitting a new task will display a confirmation snackbar, clear the form and place the focus on the title edit text. New tasks are saved in the cloud and visible immediately after returning to the homepage.
 
-[![add page](./readme-images/lab-31/add_task_01.png)](./readme-images/lab-31/add_task_01.png)
-[![add page](./readme-images/lab-31/add_task_02.png)](./readme-images/lab-31/add_task_02.png)
-[![add page](./readme-images/lab-31/add_task_03.png)](./readme-images/lab-31/add_task_03.png)
+[![add page](./readme-images/lab-33/add_task_01.png)](./readme-images/lab-33/add_task_01.png)
+[![add page](./readme-images/lab-33/add_task_02.png)](./readme-images/lab-33/add_task_02.png)
+[![add page](./readme-images/lab-33/add_task_03.png)](./readme-images/lab-33/add_task_03.png)
 
 ### All Tasks
 

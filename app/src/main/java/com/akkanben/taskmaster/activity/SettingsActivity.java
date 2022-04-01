@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.akkanben.taskmaster.R;
-import com.akkanben.taskmaster.utility.EnumUtility;
+
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Team;
@@ -24,10 +24,8 @@ import com.amplifyframework.datastore.generated.model.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class SettingsActivity extends AppCompatActivity {
-
     SharedPreferences preferences;
     public static final String USERNAME_TAG = "username";
     public static final String TEAM_TAG = "team";
@@ -44,8 +42,6 @@ public class SettingsActivity extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String usernameString = preferences.getString(USERNAME_TAG, "");
         String teamString = preferences.getString(TEAM_TAG, "");
-
-
         teamsFuture = new CompletableFuture<>();
         List<Team> teamList = new ArrayList<>();
         List<String> teamListAsString = new ArrayList<>();
@@ -74,15 +70,12 @@ public class SettingsActivity extends AppCompatActivity {
                 },
                 failure -> Log.i(TAG, "Failed to read products")
         );
-
         if (!usernameString.isEmpty()) {
             EditText usernameEditText = findViewById(R.id.edit_text_settings_activity_username);
             usernameEditText.setText(usernameString);
         }
-
         Button saveButton = findViewById(R.id.button_settings_activity_save);
         saveButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor preferencesEditor = preferences.edit();

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.akkanben.taskmaster.R;
 
 public class AllTasksActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,10 +1,5 @@
 package com.akkanben.taskmaster.activity;
 
-import static com.akkanben.taskmaster.R.color.purple_200;
-import static com.akkanben.taskmaster.R.color.purple_500;
-import static com.akkanben.taskmaster.R.color.purple_700;
-import static com.akkanben.taskmaster.R.color.teal_200;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 

@@ -28,10 +28,8 @@ import com.amplifyframework.datastore.generated.model.TaskStatus;
 import java.util.List;
 
 public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRecyclerViewAdapter.TaskListViewHolder> {
-
     List<Task> taskList;
     Context callingActivity;
-
 
     public TaskListRecyclerViewAdapter(List<Task> taskList, Context callingActivity) {
         this.taskList = taskList;

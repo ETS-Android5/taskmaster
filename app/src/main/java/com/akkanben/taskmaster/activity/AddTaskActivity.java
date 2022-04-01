@@ -29,7 +29,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class AddTaskActivity extends AppCompatActivity {
-
     public static final String TAG = "add_task_tag";
     CompletableFuture<List<Team>> teamsFuture = null;
     Spinner taskStatusSpinner = null;
@@ -44,7 +43,6 @@ public class AddTaskActivity extends AppCompatActivity {
         teamsFuture = new CompletableFuture<>();
         List<Team> teamList = new ArrayList<>();
         List<String> teamListAsString = new ArrayList<>();
-
         taskStatusSpinner = findViewById(R.id.spinner_add_task_status);
         ArrayList<String> statusList = EnumUtility.getTaskStatusList();
         taskStatusSpinner.setAdapter(new ArrayAdapter<>(
@@ -52,7 +50,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item,
                 statusList
         ));
-
         taskTeamSpinner = findViewById(R.id.spinner_add_task_team);
         Amplify.API.query(
                 ModelQuery.list(Team.class),
@@ -74,7 +71,6 @@ public class AddTaskActivity extends AppCompatActivity {
                 },
                 failure -> Log.i(TAG, "Failed to read products")
         );
-
         Button addTaskButton = findViewById(R.id.button_add_task_add_task);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         setupAnimatedBackground(constraintLayout);
         setupSettingsFloatingActionButton();
         setupAddTaskButton();
-        setupAllTasksButton();
         setupTaskListRecyclerView();
     }
 
@@ -97,17 +96,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent goToAddTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
                 startActivity(goToAddTaskIntent);
-            }
-        });
-    }
-
-    private void setupAllTasksButton() {
-        Button allTasksButton = findViewById(R.id.button_main_all_tasks);
-        allTasksButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goToAllTasksIntent = new Intent(MainActivity.this, AllTasksActivity.class);
-                startActivity(goToAllTasksIntent);
             }
         });
     }

@@ -28,4 +28,13 @@
     <string name="add_task_speakable_team">Select Team</string>
     <string name="team">Team</string>
     <string name="settings_spinner_speakable_team">Select Team Filter</string>
+    <string name="verify_new_account">Verify New Account</string>
+    <string name="sign_up_for_new_account">Sign Up for New Account</string>
+    <string name="log_in">Log In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="submit">Submit</string>
+    <string name="verification_number">Verification Number</string>
+    <string name="verification_number">Verification Number</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>

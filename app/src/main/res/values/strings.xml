@@ -39,4 +39,5 @@
     <string name="sign_up">Sign Up</string>
     <string name="nickname_not_required">Nickname (Not Required)</string>
     <string name="nickname">Nickname</string>
+    <string name="log_out">Log Out</string>
 </resources>

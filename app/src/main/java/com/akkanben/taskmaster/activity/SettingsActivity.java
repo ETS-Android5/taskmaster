@@ -26,6 +26,7 @@ import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +45,13 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ConstraintLayout constraintLayout = findViewById(R.id.settings_layout);
-        setupAnimatedBackground(constraintLayout);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        setupAnimatedBackground(constraintLayout);
+        setupSaveButton();
+        setupLogOutButton();
+    }
+
+    private void setupSaveButton() {
         String usernameString = preferences.getString(USERNAME_TAG, "");
         String teamString = preferences.getString(TEAM_TAG, "");
         teamsFuture = new CompletableFuture<>();
@@ -93,6 +99,23 @@ public class SettingsActivity extends AppCompatActivity {
                 preferencesEditor.putString(TEAM_TAG, teamString);
                 preferencesEditor.apply();
             }
+        });
+    }
+
+    private void setupLogOutButton() {
+        Button logOutButton = findViewById(R.id.button_settings_activity_log_out);
+        logOutButton.setOnClickListener(view -> {
+            Amplify.Auth.signOut(
+                    () -> {
+                       Log.i(TAG, "Logout Successful");
+                       Intent goToLogInIntent = new Intent(SettingsActivity.this, LogInActivity.class);
+                       startActivity(goToLogInIntent);
+                    },
+                    failure -> {
+                        Log.i(TAG, "Logout Unsuccessful");
+                        Snackbar.make(findViewById(R.id.settings_layout), "Logout Error", Snackbar.LENGTH_SHORT).show();
+                    }
+            );
         });
     }
 

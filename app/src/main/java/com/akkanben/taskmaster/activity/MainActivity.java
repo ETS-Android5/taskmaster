@@ -1,5 +1,6 @@
 package com.akkanben.taskmaster.activity;
 
+import static com.akkanben.taskmaster.activity.SettingsActivity.USERNAME_TAG;
 import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBackground;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +18,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.akkanben.taskmaster.R;
+import com.akkanben.taskmaster.activity.authentication.LogInActivity;
 import com.akkanben.taskmaster.adapter.TaskListRecyclerViewAdapter;
 
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
+import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     List<Task> taskList = new ArrayList<>();
     SharedPreferences preferences;
     TaskListRecyclerViewAdapter taskListAdapter;
+    String usernameString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String usernameString = preferences.getString(SettingsActivity.USERNAME_TAG, getString(R.string.my_tasks));
+        String usernameStringInPreferences = preferences.getString(SettingsActivity.USERNAME_TAG, getString(R.string.my_tasks));
+        AuthUser authUser = Amplify.Auth.getCurrentUser();
+        if (authUser == null) {
+            Intent goToLogInIntent = new Intent(MainActivity.this, LogInActivity.class);
+            startActivity(goToLogInIntent);
+        } else {
+            Amplify.Auth.fetchUserAttributes(
+                    success -> {
+                        for (AuthUserAttribute userAttribute : success) {
+                            if (userAttribute.getKey().getKeyString().equals("nickname")) {
+                                if (!preferences.getString(USERNAME_TAG, getString(R.string.my_tasks)).toString().equals(userAttribute.getValue()))
+                                    runOnUiThread(() -> {
+                                        SharedPreferences.Editor preferencesEditor = preferences.edit();
+                                        usernameString = userAttribute.getValue();
+                                        preferencesEditor.putString(USERNAME_TAG, usernameString);
+                                        preferencesEditor.apply();
+                                    });
+                            }
+                        }
+                    },
+                    failure -> Log.i(TAG, "Failed to get user attributes: " + failure.toString())
+            );
+        }
+
         if (usernameString.equals("") || usernameString.equals(getString(R.string.my_tasks)))
             ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.my_tasks));
         else

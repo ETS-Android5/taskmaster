@@ -5,6 +5,7 @@
     android:id="@+id/log_in_activity_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_activity_background_list"
     tools:context=".activity.authentication.LogInActivity">
 
     <EditText

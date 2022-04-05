@@ -1,6 +1,9 @@
 package com.akkanben.taskmaster.activity.authentication;
 
+import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBackground;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +23,8 @@ public class VerifyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify);
+        ConstraintLayout constraintLayout = findViewById(R.id.verify_activity_layout);
+        setupAnimatedBackground(constraintLayout);
         Intent callingIntent = getIntent();
         String email = callingIntent.getStringExtra(SignUpActivity.SIGN_UP_EMAIL_TAG);
         Button submitButton = findViewById(R.id.button_verify_activity_submit);

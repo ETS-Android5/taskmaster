@@ -1,6 +1,9 @@
 package com.akkanben.taskmaster.activity.authentication;
 
+import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBackground;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +25,8 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        ConstraintLayout constraintLayout = findViewById(R.id.log_in_activity_layout);
+        setupAnimatedBackground(constraintLayout);
         setupSignUpButton();
         setupLogInButton();
     }
@@ -52,8 +57,6 @@ public class LogInActivity extends AppCompatActivity {
                         runOnUiThread(() -> Toast.makeText(LogInActivity.this, "Log In Error", Toast.LENGTH_SHORT).show());
                     }
             );
-            Intent goToMainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
-            startActivity(goToMainActivityIntent);
         });
     }
 }

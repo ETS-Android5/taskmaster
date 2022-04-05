@@ -100,13 +100,6 @@ public class MainActivityTest {
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
         button.check(matches(isDisplayed()));
-
-        ViewInteraction button2 = onView(
-                allOf(withId(R.id.button_main_all_tasks), withText("ALL TASKS"),
-                        withParent(allOf(withId(R.id.main_activity_layout),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        button2.check(matches(isDisplayed()));
     }
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {

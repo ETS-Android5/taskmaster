@@ -84,15 +84,27 @@ TaskMaster is a task manager app for Android.
 - App is currently in review on the Google Play Store.
   - After review the Play Store link will be [](https://play.google.com/store/apps/details?id=com.akkanben.taskmaster)
 
+### Lab 35
+
+- Adds Amplify Auth
+  - If the user is not logged in the app launches to the log in activity.
+  - Login activity has a log in form as well as a button to a sign up activity.
+  - The sign up activity has a form for creating an Amplify Auth hosted account
+    - After successful creation the user is forwarded to the verify activity.
+  - The verify activity allow the user to enter the verification code received via email.
+    - After successful creation the user is forwarded to the log in activity.
+- The currently logged in user's nickname appears as before with "My Tasks" if the user's name is an empty string.
+- The all tasks activity has been removed as well as the button for all tasks on the main activity.
+
 ## Activities
 
 ### Homepage 
 
 The homepage displays a RecyclerView list of tasks that link to dynamically created task detail activities. All tasks are retrieved from an AWS Amplify database. If there is a current team set, the tasks displayed are filtered by that team. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity. The background slowly blends two backgrounds.
 
-[![main page](./readme-images/lab-31/main_01.png)](./readme-images/lab-31/main_01.png)
-[![main page](./readme-images/lab-31/main_02.png)](./readme-images/lab-31/main_02.png)
-[![main page](./readme-images/lab-31/main_03.png)](./readme-images/lab-31/main_03.png)
+[![main page](./readme-images/lab-36/main_01.png)](./readme-images/lab-36/main_01.png)
+[![main page](./readme-images/lab-36/main_02.png)](./readme-images/lab-36/main_02.png)
+[![main page](./readme-images/lab-36/main_03.png)](./readme-images/lab-36/main_03.png)
 
 ### Task Details
 
@@ -106,8 +118,8 @@ The task details activity displays a title, status, and description for each tas
 
 The settings page allows a user to change their username and current team and save it in SharedPreferences. The saved username is reflected on the homepage after saving one. Submitting an empty string will revert the display back to "My Tasks". The selected team behaves like a filter for the tasks displayed on the main activity. Background animates in the same way the main activity animates.
 
-[![settings page](./readme-images/lab-33/settings_1.png)](./readme-images/lab-33/settings_1.png)
-[![settings page](./readme-images/lab-31/settings_2.png)](./readme-images/lab-31/settings_2.png)
+[![settings page](./readme-images/lab-36/settings_01.png)](./readme-images/lab-36/settings_01.png)
+[![settings page](./readme-images/lab-36/settings_02.png)](./readme-images/lab-36/settings_02.png)
 [![settings page](./readme-images/lab-33/settings_3.png)](./readme-images/lab-33/settings_3.png)
 
 ### Add a Task
@@ -118,8 +130,10 @@ The add a task view takes user input for a task name, description, task status a
 [![add page](./readme-images/lab-33/add_task_02.png)](./readme-images/lab-33/add_task_02.png)
 [![add page](./readme-images/lab-33/add_task_03.png)](./readme-images/lab-33/add_task_03.png)
 
-### All Tasks
+### Log In, Sign Up, Verify
 
-The all tasks view will someday be home to a list of current tasks. Currently there is just a placeholder image and the title.
+The sign up and vefify activities control the Amplify Auth initial setup. The log in page handles future log ins. Log outs are preformed in the settings activity.
 
-[![all page](./readme-images/lab-26/all_tasks_01.png)](./readme-images/lab-26/all_tasks_01.png)
+[![all page](./readme-images/lab-36/sign_up_01.png)](./readme-images/lab-36/sign_up_01.png)
+[![all page](./readme-images/lab-36/verify_01.png)](./readme-images/lab-36/verify_01.png)
+[![all page](./readme-images/lab-36/log_in_01.png)](./readme-images/lab-36/log_in_01.png)

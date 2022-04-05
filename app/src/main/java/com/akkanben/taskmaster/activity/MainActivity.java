@@ -67,20 +67,21 @@ public class MainActivity extends AppCompatActivity {
                     success -> {
                         for (AuthUserAttribute userAttribute : success) {
                             if (userAttribute.getKey().getKeyString().equals("nickname")) {
-                                if (!preferences.getString(USERNAME_TAG, getString(R.string.my_tasks)).toString().equals(userAttribute.getValue()))
+                                if (!preferences.getString(USERNAME_TAG, getString(R.string.my_tasks)).toString().equals(userAttribute.getValue())) {
                                     runOnUiThread(() -> {
                                         SharedPreferences.Editor preferencesEditor = preferences.edit();
                                         usernameString = userAttribute.getValue();
                                         preferencesEditor.putString(USERNAME_TAG, usernameString);
                                         preferencesEditor.apply();
                                     });
+                                }
                             }
                         }
                     },
                     failure -> Log.i(TAG, "Failed to get user attributes: " + failure.toString())
             );
         }
-
+        usernameString = preferences.getString(SettingsActivity.USERNAME_TAG, getString(R.string.my_tasks));
         if (usernameString.equals("") || usernameString.equals(getString(R.string.my_tasks)))
             ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.my_tasks));
         else

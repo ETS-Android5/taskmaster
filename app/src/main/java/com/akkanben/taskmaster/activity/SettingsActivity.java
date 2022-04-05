@@ -5,6 +5,7 @@ import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBack
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -14,10 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.akkanben.taskmaster.R;
 
+import com.akkanben.taskmaster.activity.authentication.LogInActivity;
 import com.amplifyframework.api.graphql.model.ModelQuery;
+import com.amplifyframework.auth.AuthUser;
+import com.amplifyframework.auth.AuthUserAttribute;
+import com.amplifyframework.auth.AuthUserAttributeKey;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Team;
 
@@ -82,10 +88,28 @@ public class SettingsActivity extends AppCompatActivity {
                 EditText usernameEditText = findViewById(R.id.edit_text_settings_activity_username);
                 String usernameString = usernameEditText.getText().toString();
                 String teamString = taskTeamSpinner.getSelectedItem().toString();
+                setAuthNickname(usernameString);
                 preferencesEditor.putString(USERNAME_TAG, usernameString);
                 preferencesEditor.putString(TEAM_TAG, teamString);
                 preferencesEditor.apply();
             }
         });
+    }
+
+    private void setAuthNickname(String nickname) {
+        AuthUser authUser = Amplify.Auth.getCurrentUser();
+        AuthUserAttribute nicknameAuthAttribute = new AuthUserAttribute(AuthUserAttributeKey.nickname(), nickname);
+        if (authUser != null) {
+            Amplify.Auth.updateUserAttribute(
+                    nicknameAuthAttribute,
+                    success -> {
+                       Log.i(TAG, "Updated Nickname: " + success.toString());
+                        runOnUiThread(() -> Toast.makeText(SettingsActivity.this, "Nickname Updated", Toast.LENGTH_SHORT));
+                    },
+                    failure -> {
+                        Log.i(TAG, "Failed to updat Nickname: " + failure.toString());
+                        runOnUiThread(() -> Toast.makeText(SettingsActivity.this, "Error Saving", Toast.LENGTH_SHORT));
+                    });
+        }
     }
 }

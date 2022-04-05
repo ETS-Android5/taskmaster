@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.akkanben.taskmaster.R;
 import com.akkanben.taskmaster.activity.MainActivity;
 import com.amplifyframework.core.Amplify;
+import com.google.android.material.snackbar.Snackbar;
 
 public class LogInActivity extends AppCompatActivity {
     public static final String VERIFY_EMAIL_EXTRA_TAG = "verify_email_tag";
@@ -42,13 +43,13 @@ public class LogInActivity extends AppCompatActivity {
                     email.getText().toString(),
                     password.getText().toString(),
                     success -> {
-                       Log.i(TAG, "Login Suceeded: " + success.toString());
+                       Log.i(TAG, "Login Succeeded: " + success.toString());
                        Intent goToMainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);
                        startActivity(goToMainActivityIntent);
                     },
                     failure -> {
                         Log.i(TAG, "Login Failed: " + failure.toString());
-                        runOnUiThread(() -> Toast.makeText(LogInActivity.this, "Login Failed", Toast.LENGTH_SHORT));
+                        runOnUiThread(() -> Toast.makeText(LogInActivity.this, "Log In Error", Toast.LENGTH_SHORT).show());
                     }
             );
             Intent goToMainActivityIntent = new Intent(LogInActivity.this, MainActivity.class);

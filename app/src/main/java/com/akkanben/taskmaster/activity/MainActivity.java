@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String TASK_NAME_EXTRA_TAG = "taskName";
     public static final String TASK_STATUS_EXTRA_TAG = "taskStatus";
     public static final String TASK_DESCRIPTION_EXTRA_TAG = "taskDescription";
+    public static final String TASK_ATTACHMENT_EXTRA_TAG = "taskAttachment";
+
     List<Task> taskList = new ArrayList<>();
     SharedPreferences preferences;
     TaskListRecyclerViewAdapter taskListAdapter;

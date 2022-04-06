@@ -31,11 +31,13 @@ public final class Task implements Model {
   public static final QueryField TITLE = field("Task", "title");
   public static final QueryField BODY = field("Task", "body");
   public static final QueryField STATUS = field("Task", "status");
+  public static final QueryField ATTACHMENT = field("Task", "attachment");
   public static final QueryField TEAM = field("Task", "teamId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String", isRequired = true) String body;
   private final @ModelField(targetType="TaskStatus") TaskStatus status;
+  private final @ModelField(targetType="String") String attachment;
   private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamId", type = Team.class) Team team;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -55,6 +57,10 @@ public final class Task implements Model {
       return status;
   }
   
+  public String getAttachment() {
+      return attachment;
+  }
+  
   public Team getTeam() {
       return team;
   }
@@ -67,11 +73,12 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String title, String body, TaskStatus status, Team team) {
+  private Task(String id, String title, String body, TaskStatus status, String attachment, Team team) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.status = status;
+    this.attachment = attachment;
     this.team = team;
   }
   
@@ -87,6 +94,7 @@ public final class Task implements Model {
               ObjectsCompat.equals(getTitle(), task.getTitle()) &&
               ObjectsCompat.equals(getBody(), task.getBody()) &&
               ObjectsCompat.equals(getStatus(), task.getStatus()) &&
+              ObjectsCompat.equals(getAttachment(), task.getAttachment()) &&
               ObjectsCompat.equals(getTeam(), task.getTeam()) &&
               ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
@@ -100,6 +108,7 @@ public final class Task implements Model {
       .append(getTitle())
       .append(getBody())
       .append(getStatus())
+      .append(getAttachment())
       .append(getTeam())
       .append(getCreatedAt())
       .append(getUpdatedAt())
@@ -115,6 +124,7 @@ public final class Task implements Model {
       .append("title=" + String.valueOf(getTitle()) + ", ")
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("status=" + String.valueOf(getStatus()) + ", ")
+      .append("attachment=" + String.valueOf(getAttachment()) + ", ")
       .append("team=" + String.valueOf(getTeam()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
@@ -140,6 +150,7 @@ public final class Task implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -149,6 +160,7 @@ public final class Task implements Model {
       title,
       body,
       status,
+      attachment,
       team);
   }
   public interface TitleStep {
@@ -165,6 +177,7 @@ public final class Task implements Model {
     Task build();
     BuildStep id(String id);
     BuildStep status(TaskStatus status);
+    BuildStep attachment(String attachment);
     BuildStep team(Team team);
   }
   
@@ -174,6 +187,7 @@ public final class Task implements Model {
     private String title;
     private String body;
     private TaskStatus status;
+    private String attachment;
     private Team team;
     @Override
      public Task build() {
@@ -184,6 +198,7 @@ public final class Task implements Model {
           title,
           body,
           status,
+          attachment,
           team);
     }
     
@@ -208,6 +223,12 @@ public final class Task implements Model {
     }
     
     @Override
+     public BuildStep attachment(String attachment) {
+        this.attachment = attachment;
+        return this;
+    }
+    
+    @Override
      public BuildStep team(Team team) {
         this.team = team;
         return this;
@@ -225,11 +246,12 @@ public final class Task implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String body, TaskStatus status, Team team) {
+    private CopyOfBuilder(String id, String title, String body, TaskStatus status, String attachment, Team team) {
       super.id(id);
       super.title(title)
         .body(body)
         .status(status)
+        .attachment(attachment)
         .team(team);
     }
     
@@ -246,6 +268,11 @@ public final class Task implements Model {
     @Override
      public CopyOfBuilder status(TaskStatus status) {
       return (CopyOfBuilder) super.status(status);
+    }
+    
+    @Override
+     public CopyOfBuilder attachment(String attachment) {
+      return (CopyOfBuilder) super.attachment(attachment);
     }
     
     @Override

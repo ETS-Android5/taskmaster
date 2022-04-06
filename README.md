@@ -96,6 +96,16 @@ TaskMaster is a task manager app for Android.
 - The currently logged in user's nickname appears as before with "My Tasks" if the user's name is an empty string.
 - The all tasks activity has been removed as well as the button for all tasks on the main activity.
 
+### Lab 37
+
+- Adds Amplify Storage
+  - Adding a task has an optional attachement component.
+    - Tapping the attachement button brings up the Android file picker and saves the file with the task.
+    - Currently only jpeg or png files are accepted.
+    - The attachement is saved in AWS S3 and the key is saved with the task in DynamoDB.
+  - The task details activity has been updated to display the image of the task if one exists.
+   
+
 ## Activities
 
 ### Homepage 
@@ -108,11 +118,11 @@ The homepage displays a RecyclerView list of tasks that link to dynamically crea
 
 ### Task Details
 
-The task details activity displays a title, status, and description for each task. The data for the tasks are stored in the cloud via an Amplify database. The task background also changes with the status of the task (same colors as main page buttons).
+The task details activity displays a title, status, and description for each task. Tasks also will display an optional attachement. The data for the tasks are stored in the cloud via an Amplify database. The task background also changes with the status of the task (same colors as main page buttons).
 
-[![task page](./readme-images/lab-31/task_detail_01.png)](./readme-images/lab-31/task_detail_01.png)
-[![task page](./readme-images/lab-31/task_detail_02.png)](./readme-images/lab-31/task_detail_02.png)
-[![task page](./readme-images/lab-31/task_detail_03.png)](./readme-images/lab-31/task_detail_03.png)
+[![task page](./readme-images/lab-37/task_detail_01.png)](./readme-images/lab-37/task_detail_01.png)
+[![task page](./readme-images/lab-37/task_detail_02.png)](./readme-images/lab-37/task_detail_02.png)
+[![task page](./readme-images/lab-37/task_detail_03.png)](./readme-images/lab-37/task_detail_03.png)
 
 ### Settings
 

@@ -5,6 +5,7 @@ subscription OnCreateTask {
     title
     body
     status
+    attachment
     teamId
     team {
       id
@@ -25,6 +26,7 @@ subscription OnUpdateTask {
     title
     body
     status
+    attachment
     teamId
     team {
       id
@@ -45,6 +47,7 @@ subscription OnDeleteTask {
     title
     body
     status
+    attachment
     teamId
     team {
       id
@@ -69,6 +72,7 @@ subscription OnCreateTeam {
         title
         body
         status
+        attachment
         teamId
         createdAt
         updatedAt
@@ -89,6 +93,7 @@ subscription OnUpdateTeam {
         title
         body
         status
+        attachment
         teamId
         createdAt
         updatedAt
@@ -109,6 +114,7 @@ subscription OnDeleteTeam {
         title
         body
         status
+        attachment
         teamId
         createdAt
         updatedAt

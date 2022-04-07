@@ -104,6 +104,12 @@ TaskMaster is a task manager app for Android.
     - Currently only jpeg or png files are accepted.
     - The attachement is saved in AWS S3 and the key is saved with the task in DynamoDB.
   - The task details activity has been updated to display the image of the task if one exists.
+
+### Lab 38
+- Updates add task to include image thumbnail preview.
+- Adds an intent filter for images to initiate an new task.
+  - Image from intent updates image thumbnail and saves along with the task
+  - Intent image uploads to S3.
    
 
 ## Activities
@@ -136,8 +142,8 @@ The settings page allows a user to change their username and current team and sa
 
 The add a task view takes user input for a task name, description, task status and team. Submitting a new task will display a confirmation snackbar, clear the form and place the focus on the title edit text. New tasks are saved in the cloud and visible immediately after returning to the homepage.
 
-[![add page](./readme-images/lab-33/add_task_01.png)](./readme-images/lab-33/add_task_01.png)
-[![add page](./readme-images/lab-33/add_task_02.png)](./readme-images/lab-33/add_task_02.png)
+[![add page](./readme-images/lab-38/add_task_01.png)](./readme-images/lab-38/add_task_01.png)
+[![add page](./readme-images/lab-38/add_task_02.png)](./readme-images/lab-38/add_task_02.png)
 [![add page](./readme-images/lab-33/add_task_03.png)](./readme-images/lab-33/add_task_03.png)
 
 ### Log In, Sign Up, Verify

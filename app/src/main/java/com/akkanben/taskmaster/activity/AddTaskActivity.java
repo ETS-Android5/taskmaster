@@ -124,11 +124,13 @@ public class AddTaskActivity extends AppCompatActivity {
                             Log.i(TAG, "AddTaskActivity.onCreate(): added a task");
                             InputStream pickedFileInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
                             uploadInputStreamToS3(pickedFileInputStream, pickedFileName);
+                            byteArrayOutputStream = null;
                         },
                         failure -> Log.i(TAG, "AddTaskActivity.onCreate(): failed to add a task")
                 );
                 ((EditText) findViewById(R.id.edit_text_add_task_task_title)).setText("");
                 ((EditText) findViewById(R.id.text_edit_add_task_task_description)).setText("");
+                ((ImageView) findViewById(R.id.image_view_add_task_activity_preview)).setVisibility(View.INVISIBLE);
                 taskStatusSpinner.setSelection(0);
                 taskTeamSpinner.setSelection(0);
                 titleEditText.requestFocus();

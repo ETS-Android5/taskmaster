@@ -30,7 +30,13 @@
             android:exported="false" />
         <activity
             android:name=".activity.AddTaskActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter android:label="New Task From Image">
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">

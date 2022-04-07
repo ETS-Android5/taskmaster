@@ -66,9 +66,10 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
         ConstraintLayout constraintLayout = findViewById(R.id.view_add_task);
+        byteArrayOutputStream = new ByteArrayOutputStream();
         setupAnimatedBackground(constraintLayout);
         setupFloatingAddFileButton();
-        byteArrayOutputStream = new ByteArrayOutputStream();
+        setupCallingIntent();
         activityResultLauncher = getActivityResultLauncher();
         teamsFuture = new CompletableFuture<>();
         List<Team> teamList = new ArrayList<>();
@@ -126,8 +127,8 @@ public class AddTaskActivity extends AppCompatActivity {
                         },
                         failure -> Log.i(TAG, "AddTaskActivity.onCreate(): failed to add a task")
                 );
-                ((EditText)findViewById(R.id.edit_text_add_task_task_title)).setText("");
-                ((EditText)findViewById(R.id.text_edit_add_task_task_description)).setText("");
+                ((EditText) findViewById(R.id.edit_text_add_task_task_title)).setText("");
+                ((EditText) findViewById(R.id.text_edit_add_task_task_description)).setText("");
                 taskStatusSpinner.setSelection(0);
                 taskTeamSpinner.setSelection(0);
                 titleEditText.requestFocus();
@@ -139,12 +140,37 @@ public class AddTaskActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         if (byteArrayOutputStream != null) {
             InputStream pickedFileInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
             ImageView taskPreviewImageView = findViewById(R.id.image_view_add_task_activity_preview);
             taskPreviewImageView.setImageBitmap(BitmapFactory.decodeStream(pickedFileInputStream));
             taskPreviewImageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setupCallingIntent() {
+        Intent callingIntent = getIntent();
+        if (callingIntent != null && callingIntent.getType() != null && callingIntent.getType().startsWith("image")) {
+            Uri fileUri = callingIntent.getParcelableExtra(Intent.EXTRA_STREAM);
+            if (fileUri != null) {
+                InputStream pickedFileInputStream = null;
+                try {
+                    pickedFileInputStream = getContentResolver().openInputStream(fileUri);
+                    byteArrayOutputStream = new ByteArrayOutputStream();
+                    byte[] byteBuffer = new byte[1024];
+                    int length;
+                    while ((length = pickedFileInputStream.read(byteBuffer)) != -1)
+                        byteArrayOutputStream.write(byteBuffer, 0, length);
+                    byteArrayOutputStream.flush();
+                } catch (IOException ioe) {
+                    Log.i(TAG, "Could not save calling intent image to byte buffer" + ioe);
+                }
+                pickedFileName = getFileNameFromUri(fileUri);
+                InputStream inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+                ImageView taskPreviewImageView = findViewById(R.id.image_view_add_task_activity_preview);
+                taskPreviewImageView.setImageBitmap(BitmapFactory.decodeStream(inputStream));
+                taskPreviewImageView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -179,22 +205,20 @@ public class AddTaskActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                           Uri pickedFileUri = result.getData().getData();
-                           try {
-                               InputStream pickedFileInputStream = getContentResolver().openInputStream(pickedFileUri);
-                               byteArrayOutputStream = new ByteArrayOutputStream();
-                               byte[] byteBuffer = new byte[1024];
-                               int length;
-                               while ((length = pickedFileInputStream.read(byteBuffer)) != -1)
-                                   byteArrayOutputStream.write(byteBuffer, 0, length);
-                               byteArrayOutputStream.flush();
-                               pickedFileName = getFileNameFromUri(pickedFileUri);
-                               Log.i(TAG, "Successfully took input stream from file. Filename: " + pickedFileName + " Uri: " + pickedFileUri);
-                           } catch (FileNotFoundException fnfe){
-                               Log.e(TAG, "Could not pick file: " + fnfe.getMessage(), fnfe);
-                           } catch (IOException e) {
-                               e.printStackTrace();
-                           }
+                            Uri pickedFileUri = result.getData().getData();
+                            try {
+                                InputStream pickedFileInputStream = getContentResolver().openInputStream(pickedFileUri);
+                                byteArrayOutputStream = new ByteArrayOutputStream();
+                                byte[] byteBuffer = new byte[1024];
+                                int length;
+                                while ((length = pickedFileInputStream.read(byteBuffer)) != -1)
+                                    byteArrayOutputStream.write(byteBuffer, 0, length);
+                                byteArrayOutputStream.flush();
+                                pickedFileName = getFileNameFromUri(pickedFileUri);
+                                Log.i(TAG, "Successfully took input stream from file. Filename: " + pickedFileName + " Uri: " + pickedFileUri);
+                            } catch (IOException ioe) {
+                                Log.e(TAG, "Could not pick file: " + ioe.getMessage(), ioe);
+                            }
                         } else
                             Log.e(TAG, "Activity result error.");
                     }
@@ -202,6 +226,7 @@ public class AddTaskActivity extends AppCompatActivity {
         );
         return pickingIntent;
     }
+
     // Taken from https://stackoverflow.com/a/25005243/16889809
     @SuppressLint("Range")
     public String getFileNameFromUri(Uri uri) {

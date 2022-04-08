@@ -273,6 +273,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "location",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "teamId",
                         "description": null,
                         "args": [],
@@ -674,6 +686,16 @@
                     },
                     {
                         "name": "longitude",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "location",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1738,6 +1760,16 @@
                         "defaultValue": null
                     },
                     {
+                        "name": "location",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
                         "name": "teamId",
                         "description": null,
                         "type": {
@@ -1814,6 +1846,16 @@
                     },
                     {
                         "name": "longitude",
+                        "description": null,
+                        "type": {
+                            "kind": "INPUT_OBJECT",
+                            "name": "ModelStringInput",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "location",
                         "description": null,
                         "type": {
                             "kind": "INPUT_OBJECT",
@@ -1947,6 +1989,16 @@
                     },
                     {
                         "name": "longitude",
+                        "description": null,
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "String",
+                            "ofType": null
+                        },
+                        "defaultValue": null
+                    },
+                    {
+                        "name": "location",
                         "description": null,
                         "type": {
                             "kind": "SCALAR",

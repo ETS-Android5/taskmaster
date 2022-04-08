@@ -8,6 +8,7 @@ query GetTask($id: ID!) {
     attachment
     latitude
     longitude
+    location
     teamId
     team {
       id
@@ -36,6 +37,7 @@ query ListTasks(
       attachment
       latitude
       longitude
+      location
       teamId
       team {
         id
@@ -62,6 +64,7 @@ query GetTeam($id: ID!) {
         attachment
         latitude
         longitude
+        location
         teamId
         createdAt
         updatedAt

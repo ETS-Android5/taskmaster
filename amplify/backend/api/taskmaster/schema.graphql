@@ -10,6 +10,7 @@ type Task @model @auth(rules: [{allow: public}]) {
   attachment: String
   latitude: String
   longitude: String
+  location: String
   teamId: ID! @index(name: "byTitle", sortKeyFields: ["title"])
   team: Team @belongsTo(fields: ["teamId"])
 }

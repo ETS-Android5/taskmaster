@@ -8,6 +8,7 @@ subscription OnCreateTask {
     attachment
     latitude
     longitude
+    location
     teamId
     team {
       id
@@ -31,6 +32,7 @@ subscription OnUpdateTask {
     attachment
     latitude
     longitude
+    location
     teamId
     team {
       id
@@ -54,6 +56,7 @@ subscription OnDeleteTask {
     attachment
     latitude
     longitude
+    location
     teamId
     team {
       id
@@ -81,6 +84,7 @@ subscription OnCreateTeam {
         attachment
         latitude
         longitude
+        location
         teamId
         createdAt
         updatedAt
@@ -104,6 +108,7 @@ subscription OnUpdateTeam {
         attachment
         latitude
         longitude
+        location
         teamId
         createdAt
         updatedAt
@@ -127,6 +132,7 @@ subscription OnDeleteTeam {
         attachment
         latitude
         longitude
+        location
         teamId
         createdAt
         updatedAt

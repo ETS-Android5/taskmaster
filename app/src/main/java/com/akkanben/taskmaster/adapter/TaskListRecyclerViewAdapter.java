@@ -61,7 +61,7 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
                 goToTaskDetails.putExtra(TASK_DESCRIPTION_EXTRA_TAG, taskList.get(position).getBody());
                 goToTaskDetails.putExtra(TASK_STATUS_EXTRA_TAG, taskList.get(position).getStatus().toString());
                 goToTaskDetails.putExtra(TASK_ATTACHMENT_EXTRA_TAG, taskList.get(position).getAttachment());
-                goToTaskDetails.putExtra(TASK_LOCATION_EXTRA_TAG, taskList.get(position).getLatitude());
+                goToTaskDetails.putExtra(TASK_LOCATION_EXTRA_TAG, taskList.get(position).getLocation());
                 callingActivity.startActivity(goToTaskDetails);
             }
         });

@@ -20,6 +20,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -55,6 +56,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -147,14 +149,23 @@ public class AddTaskActivity extends AppCompatActivity {
                 Log.i(TAG, "LON: " + location.getLongitude());
                 String lat = Double.toString(location.getLatitude());
                 String lon = Double.toString(location.getLongitude());
-                saveProductToCloud(title, description, newStatus, team, pickedFileName, lat, lon);
+                String address = "";
+                String taskLocation = "";
+                try {
+                    geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                    taskLocation = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1).get(0).getAddressLine(0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.i(TAG, "LOCATION: " + address);
+                saveProductToCloud(title, description, newStatus, team, pickedFileName, lat, lon, taskLocation);
             });
             clearInputs(titleEditText);
             Snackbar.make(findViewById(R.id.view_add_task), "Task Saved", Snackbar.LENGTH_SHORT).show();
                 });
     }
 
-    private void saveProductToCloud(String title, String body, TaskStatus status, Team team, String attachmentFileNameString, String latitude, String longitude) {
+    private void saveProductToCloud(String title, String body, TaskStatus status, Team team, String attachmentFileNameString, String latitude, String longitude, String location) {
         Task newTask = Task.builder()
                 .title(title)
                 .body(body)
@@ -163,6 +174,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 .attachment(attachmentFileNameString)
                 .latitude(latitude)
                 .longitude(longitude)
+                .location(location)
                 .build();
         Amplify.API.mutate(
                 ModelMutation.create(newTask),

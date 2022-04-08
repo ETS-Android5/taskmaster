@@ -110,6 +110,14 @@ TaskMaster is a task manager app for Android.
 - Adds an intent filter for images to initiate an new task.
   - Image from intent updates image thumbnail and saves along with the task
   - Intent image uploads to S3.
+
+### Lab 39
+- Refacors code into smaller functions in add task activity.
+- Adds locations to tasks
+  - Updates add task to grab the current location.
+    - Adds lat and lon values to the task
+    - Adds street address value to the task
+  - Updates task view activity to display the street address of the task.
    
 
 ## Activities
@@ -124,11 +132,11 @@ The homepage displays a RecyclerView list of tasks that link to dynamically crea
 
 ### Task Details
 
-The task details activity displays a title, status, and description for each task. Tasks also will display an optional attachement. The data for the tasks are stored in the cloud via an Amplify database. The task background also changes with the status of the task (same colors as main page buttons).
+The task details activity displays a title, status, and description for each task. Tasks also will display an optional attachement and street address taken from GPS location. The data for the tasks are stored in the cloud via an Amplify database. The task background also changes with the status of the task (same colors as main page buttons).
 
-[![task page](./readme-images/lab-37/task_detail_01.png)](./readme-images/lab-37/task_detail_01.png)
-[![task page](./readme-images/lab-37/task_detail_02.png)](./readme-images/lab-37/task_detail_02.png)
-[![task page](./readme-images/lab-37/task_detail_03.png)](./readme-images/lab-37/task_detail_03.png)
+[![task page](./readme-images/lab-39/task_detail_01.png)](./readme-images/lab-39/task_detail_01.png)
+[![task page](./readme-images/lab-39/task_detail_02.png)](./readme-images/lab-39/task_detail_02.png)
+[![task page](./readme-images/lab-39/task_detail_03.png)](./readme-images/lab-39/task_detail_03.png)
 
 ### Settings
 
@@ -140,7 +148,7 @@ The settings page allows a user to change their username and current team and sa
 
 ### Add a Task
 
-The add a task view takes user input for a task name, description, task status and team. Submitting a new task will display a confirmation snackbar, clear the form and place the focus on the title edit text. New tasks are saved in the cloud and visible immediately after returning to the homepage.
+The add a task view takes user input for a task name, description, task status and team. The location of the device at the time of task creation will be saved with the task as well. Submitting a new task will display a confirmation snackbar, clear the form and place the focus on the title edit text. New tasks are saved in the cloud and visible immediately after returning to the homepage.
 
 [![add page](./readme-images/lab-38/add_task_01.png)](./readme-images/lab-38/add_task_01.png)
 [![add page](./readme-images/lab-38/add_task_02.png)](./readme-images/lab-38/add_task_02.png)

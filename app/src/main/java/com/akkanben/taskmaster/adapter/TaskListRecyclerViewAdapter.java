@@ -6,6 +6,7 @@ import static com.akkanben.taskmaster.R.color.purple_700;
 import static com.akkanben.taskmaster.R.color.teal_200;
 import static com.akkanben.taskmaster.activity.MainActivity.TASK_ATTACHMENT_EXTRA_TAG;
 import static com.akkanben.taskmaster.activity.MainActivity.TASK_DESCRIPTION_EXTRA_TAG;
+import static com.akkanben.taskmaster.activity.MainActivity.TASK_LOCATION_EXTRA_TAG;
 import static com.akkanben.taskmaster.activity.MainActivity.TASK_NAME_EXTRA_TAG;
 import static com.akkanben.taskmaster.activity.MainActivity.TASK_STATUS_EXTRA_TAG;
 
@@ -60,6 +61,7 @@ public class TaskListRecyclerViewAdapter extends RecyclerView.Adapter<TaskListRe
                 goToTaskDetails.putExtra(TASK_DESCRIPTION_EXTRA_TAG, taskList.get(position).getBody());
                 goToTaskDetails.putExtra(TASK_STATUS_EXTRA_TAG, taskList.get(position).getStatus().toString());
                 goToTaskDetails.putExtra(TASK_ATTACHMENT_EXTRA_TAG, taskList.get(position).getAttachment());
+                goToTaskDetails.putExtra(TASK_LOCATION_EXTRA_TAG, taskList.get(position).getLatitude());
                 callingActivity.startActivity(goToTaskDetails);
             }
         });

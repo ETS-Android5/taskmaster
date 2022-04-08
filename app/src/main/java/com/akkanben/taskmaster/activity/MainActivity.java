@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String TASK_STATUS_EXTRA_TAG = "taskStatus";
     public static final String TASK_DESCRIPTION_EXTRA_TAG = "taskDescription";
     public static final String TASK_ATTACHMENT_EXTRA_TAG = "taskAttachment";
+    public static final String TASK_LOCATION_EXTRA_TAG = "taskLocation";
 
     List<Task> taskList = new ArrayList<>();
     SharedPreferences preferences;

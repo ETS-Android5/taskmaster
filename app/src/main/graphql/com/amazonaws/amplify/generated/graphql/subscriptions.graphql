@@ -6,6 +6,8 @@ subscription OnCreateTask {
     body
     status
     attachment
+    latitude
+    longitude
     teamId
     team {
       id
@@ -27,6 +29,8 @@ subscription OnUpdateTask {
     body
     status
     attachment
+    latitude
+    longitude
     teamId
     team {
       id
@@ -48,6 +52,8 @@ subscription OnDeleteTask {
     body
     status
     attachment
+    latitude
+    longitude
     teamId
     team {
       id
@@ -73,6 +79,8 @@ subscription OnCreateTeam {
         body
         status
         attachment
+        latitude
+        longitude
         teamId
         createdAt
         updatedAt
@@ -94,6 +102,8 @@ subscription OnUpdateTeam {
         body
         status
         attachment
+        latitude
+        longitude
         teamId
         createdAt
         updatedAt
@@ -115,6 +125,8 @@ subscription OnDeleteTeam {
         body
         status
         attachment
+        latitude
+        longitude
         teamId
         createdAt
         updatedAt

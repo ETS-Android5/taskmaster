@@ -6,6 +6,8 @@ query GetTask($id: ID!) {
     body
     status
     attachment
+    latitude
+    longitude
     teamId
     team {
       id
@@ -32,6 +34,8 @@ query ListTasks(
       body
       status
       attachment
+      latitude
+      longitude
       teamId
       team {
         id
@@ -56,6 +60,8 @@ query GetTeam($id: ID!) {
         body
         status
         attachment
+        latitude
+        longitude
         teamId
         createdAt
         updatedAt

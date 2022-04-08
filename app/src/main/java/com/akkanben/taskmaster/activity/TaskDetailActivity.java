@@ -30,6 +30,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         String taskStatusString = null;
         String taskDescriptionString = null;
         String taskAttachementKeyString = null;
+        String taskLocationString = null;
         TaskStatus status = null;
         if (callingIntent != null) {
             taskNameString = callingIntent.getStringExtra(MainActivity.TASK_NAME_EXTRA_TAG);
@@ -37,23 +38,36 @@ public class TaskDetailActivity extends AppCompatActivity {
             status = TaskStatus.valueOf(taskStatusString);
             taskDescriptionString = callingIntent.getStringExtra(MainActivity.TASK_DESCRIPTION_EXTRA_TAG);
             taskAttachementKeyString = callingIntent.getStringExtra(MainActivity.TASK_ATTACHMENT_EXTRA_TAG);
+            taskLocationString = callingIntent.getStringExtra(MainActivity.TASK_LOCATION_EXTRA_TAG);
             setupStatusBackgroundColor(status);
         }
+
         TextView taskNameTextView = findViewById(R.id.task_detail_activity_task_title_text_view);
-        TextView taskStatusTextView = findViewById(R.id.text_view_task_detail_status);
-        TextView taskDescriptionTextView = findViewById(R.id.text_view_task_detail_description);
         if (taskNameString != null)
             taskNameTextView.setText(taskNameString);
         else
             taskNameTextView.setText(R.string.no_task_name);
+
+
+        TextView taskStatusTextView = findViewById(R.id.text_view_task_detail_status);
         if (taskStatusString != null)
             taskStatusTextView.setText(EnumUtility.taskStatusToString(status));
         else
-            taskNameTextView.setText(R.string.no_task_name);
+            taskNameTextView.setText(R.string.no_task_status);
+
+
+        TextView taskDescriptionTextView = findViewById(R.id.text_view_task_detail_description);
         if (taskDescriptionString != null)
             taskDescriptionTextView.setText(taskDescriptionString);
         else
             taskDescriptionTextView.setText(R.string.no_task_name);
+
+        TextView taskLocationTextView = findViewById(R.id.text_view_task_detail_activity_location);
+        if (taskLocationString != null)
+            taskLocationTextView.setText(taskLocationString);
+        else
+            taskLocationTextView.setText(R.string.no_location);
+
         if (taskAttachementKeyString != null && !taskAttachementKeyString.isEmpty()) {
             Amplify.Storage.downloadFile(
                    taskAttachementKeyString,

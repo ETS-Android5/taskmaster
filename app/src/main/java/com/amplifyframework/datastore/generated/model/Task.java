@@ -32,12 +32,18 @@ public final class Task implements Model {
   public static final QueryField BODY = field("Task", "body");
   public static final QueryField STATUS = field("Task", "status");
   public static final QueryField ATTACHMENT = field("Task", "attachment");
+  public static final QueryField LATITUDE = field("Task", "latitude");
+  public static final QueryField LONGITUDE = field("Task", "longitude");
+  public static final QueryField LOCATION = field("Task", "location");
   public static final QueryField TEAM = field("Task", "teamId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String title;
   private final @ModelField(targetType="String", isRequired = true) String body;
   private final @ModelField(targetType="TaskStatus") TaskStatus status;
   private final @ModelField(targetType="String") String attachment;
+  private final @ModelField(targetType="String") String latitude;
+  private final @ModelField(targetType="String") String longitude;
+  private final @ModelField(targetType="String") String location;
   private final @ModelField(targetType="Team") @BelongsTo(targetName = "teamId", type = Team.class) Team team;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -61,6 +67,18 @@ public final class Task implements Model {
       return attachment;
   }
   
+  public String getLatitude() {
+      return latitude;
+  }
+  
+  public String getLongitude() {
+      return longitude;
+  }
+  
+  public String getLocation() {
+      return location;
+  }
+  
   public Team getTeam() {
       return team;
   }
@@ -73,12 +91,15 @@ public final class Task implements Model {
       return updatedAt;
   }
   
-  private Task(String id, String title, String body, TaskStatus status, String attachment, Team team) {
+  private Task(String id, String title, String body, TaskStatus status, String attachment, String latitude, String longitude, String location, Team team) {
     this.id = id;
     this.title = title;
     this.body = body;
     this.status = status;
     this.attachment = attachment;
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.location = location;
     this.team = team;
   }
   
@@ -95,6 +116,9 @@ public final class Task implements Model {
               ObjectsCompat.equals(getBody(), task.getBody()) &&
               ObjectsCompat.equals(getStatus(), task.getStatus()) &&
               ObjectsCompat.equals(getAttachment(), task.getAttachment()) &&
+              ObjectsCompat.equals(getLatitude(), task.getLatitude()) &&
+              ObjectsCompat.equals(getLongitude(), task.getLongitude()) &&
+              ObjectsCompat.equals(getLocation(), task.getLocation()) &&
               ObjectsCompat.equals(getTeam(), task.getTeam()) &&
               ObjectsCompat.equals(getCreatedAt(), task.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), task.getUpdatedAt());
@@ -109,6 +133,9 @@ public final class Task implements Model {
       .append(getBody())
       .append(getStatus())
       .append(getAttachment())
+      .append(getLatitude())
+      .append(getLongitude())
+      .append(getLocation())
       .append(getTeam())
       .append(getCreatedAt())
       .append(getUpdatedAt())
@@ -125,6 +152,9 @@ public final class Task implements Model {
       .append("body=" + String.valueOf(getBody()) + ", ")
       .append("status=" + String.valueOf(getStatus()) + ", ")
       .append("attachment=" + String.valueOf(getAttachment()) + ", ")
+      .append("latitude=" + String.valueOf(getLatitude()) + ", ")
+      .append("longitude=" + String.valueOf(getLongitude()) + ", ")
+      .append("location=" + String.valueOf(getLocation()) + ", ")
       .append("team=" + String.valueOf(getTeam()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
@@ -151,6 +181,9 @@ public final class Task implements Model {
       null,
       null,
       null,
+      null,
+      null,
+      null,
       null
     );
   }
@@ -161,6 +194,9 @@ public final class Task implements Model {
       body,
       status,
       attachment,
+      latitude,
+      longitude,
+      location,
       team);
   }
   public interface TitleStep {
@@ -178,6 +214,9 @@ public final class Task implements Model {
     BuildStep id(String id);
     BuildStep status(TaskStatus status);
     BuildStep attachment(String attachment);
+    BuildStep latitude(String latitude);
+    BuildStep longitude(String longitude);
+    BuildStep location(String location);
     BuildStep team(Team team);
   }
   
@@ -188,6 +227,9 @@ public final class Task implements Model {
     private String body;
     private TaskStatus status;
     private String attachment;
+    private String latitude;
+    private String longitude;
+    private String location;
     private Team team;
     @Override
      public Task build() {
@@ -199,6 +241,9 @@ public final class Task implements Model {
           body,
           status,
           attachment,
+          latitude,
+          longitude,
+          location,
           team);
     }
     
@@ -229,6 +274,24 @@ public final class Task implements Model {
     }
     
     @Override
+     public BuildStep latitude(String latitude) {
+        this.latitude = latitude;
+        return this;
+    }
+    
+    @Override
+     public BuildStep longitude(String longitude) {
+        this.longitude = longitude;
+        return this;
+    }
+    
+    @Override
+     public BuildStep location(String location) {
+        this.location = location;
+        return this;
+    }
+    
+    @Override
      public BuildStep team(Team team) {
         this.team = team;
         return this;
@@ -246,12 +309,15 @@ public final class Task implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String title, String body, TaskStatus status, String attachment, Team team) {
+    private CopyOfBuilder(String id, String title, String body, TaskStatus status, String attachment, String latitude, String longitude, String location, Team team) {
       super.id(id);
       super.title(title)
         .body(body)
         .status(status)
         .attachment(attachment)
+        .latitude(latitude)
+        .longitude(longitude)
+        .location(location)
         .team(team);
     }
     
@@ -273,6 +339,21 @@ public final class Task implements Model {
     @Override
      public CopyOfBuilder attachment(String attachment) {
       return (CopyOfBuilder) super.attachment(attachment);
+    }
+    
+    @Override
+     public CopyOfBuilder latitude(String latitude) {
+      return (CopyOfBuilder) super.latitude(latitude);
+    }
+    
+    @Override
+     public CopyOfBuilder longitude(String longitude) {
+      return (CopyOfBuilder) super.longitude(longitude);
+    }
+    
+    @Override
+     public CopyOfBuilder location(String location) {
+      return (CopyOfBuilder) super.location(location);
     }
     
     @Override

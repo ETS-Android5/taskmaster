@@ -9,13 +9,18 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -39,6 +44,8 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.TaskStatus;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -49,6 +56,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -60,6 +68,8 @@ public class AddTaskActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> activityResultLauncher;
     ByteArrayOutputStream byteArrayOutputStream;
     String pickedFileName;
+    FusedLocationProviderClient locationProviderClient = null;
+    Geocoder geocoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +80,26 @@ public class AddTaskActivity extends AppCompatActivity {
         setupAnimatedBackground(constraintLayout);
         setupFloatingAddFileButton();
         setupCallingIntent();
+        setupLocation();
         activityResultLauncher = getActivityResultLauncher();
         teamsFuture = new CompletableFuture<>();
         List<Team> teamList = new ArrayList<>();
+        setupSpinners(teamList);
+        setupSaveButton(teamList);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (byteArrayOutputStream != null) {
+            InputStream pickedFileInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+            ImageView taskPreviewImageView = findViewById(R.id.image_view_add_task_activity_preview);
+            taskPreviewImageView.setImageBitmap(BitmapFactory.decodeStream(pickedFileInputStream));
+            taskPreviewImageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setupSpinners(List<Team> teamList) {
         List<String> teamListAsString = new ArrayList<>();
         taskStatusSpinner = findViewById(R.id.spinner_add_task_status);
         ArrayList<String> statusList = EnumUtility.getTaskStatusList();
@@ -102,52 +129,72 @@ public class AddTaskActivity extends AppCompatActivity {
                 },
                 failure -> Log.i(TAG, "Failed to read products")
         );
-        Button addTaskButton = findViewById(R.id.button_add_task_add_task);
-        addTaskButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText titleEditText = findViewById(R.id.edit_text_add_task_task_title);
-                EditText descriptionEditText = findViewById(R.id.text_edit_add_task_task_description);
-                TaskStatus newStatus = EnumUtility.taskStatusFromString(taskStatusSpinner.getSelectedItem().toString());
-                String teamString = taskTeamSpinner.getSelectedItem().toString();
-                Team team = teamList.stream().filter(e -> e.getName().equals(teamString)).collect(Collectors.toList()).get(0);
-                Task newTask = Task.builder()
-                        .title(titleEditText.getText().toString())
-                        .body(descriptionEditText.getText().toString())
-                        .status(newStatus)
-                        .team(team)
-                        .attachment(pickedFileName)
-                        .build();
-                Amplify.API.mutate(
-                        ModelMutation.create(newTask),
-                        success -> {
-                            Log.i(TAG, "AddTaskActivity.onCreate(): added a task");
-                            InputStream pickedFileInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-                            uploadInputStreamToS3(pickedFileInputStream, pickedFileName);
-                            byteArrayOutputStream = null;
-                        },
-                        failure -> Log.i(TAG, "AddTaskActivity.onCreate(): failed to add a task")
-                );
-                ((EditText) findViewById(R.id.edit_text_add_task_task_title)).setText("");
-                ((EditText) findViewById(R.id.text_edit_add_task_task_description)).setText("");
-                ((ImageView) findViewById(R.id.image_view_add_task_activity_preview)).setVisibility(View.INVISIBLE);
-                taskStatusSpinner.setSelection(0);
-                taskTeamSpinner.setSelection(0);
-                titleEditText.requestFocus();
-                Snackbar.make(findViewById(R.id.view_add_task), "Task Saved", Snackbar.LENGTH_SHORT).show();
-            }
-        });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (byteArrayOutputStream != null) {
-            InputStream pickedFileInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
-            ImageView taskPreviewImageView = findViewById(R.id.image_view_add_task_activity_preview);
-            taskPreviewImageView.setImageBitmap(BitmapFactory.decodeStream(pickedFileInputStream));
-            taskPreviewImageView.setVisibility(View.VISIBLE);
-        }
+    private void setupSaveButton(List<Team> teamList) {
+        Button addTaskButton = findViewById(R.id.button_add_task_add_task);
+        addTaskButton.setOnClickListener(view -> {
+            EditText titleEditText = findViewById(R.id.edit_text_add_task_task_title);
+            String title = titleEditText.getText().toString();
+            String description = ((EditText)findViewById(R.id.text_edit_add_task_task_description)).getText().toString();
+            TaskStatus newStatus = EnumUtility.taskStatusFromString(taskStatusSpinner.getSelectedItem().toString());
+            String teamString = taskTeamSpinner.getSelectedItem().toString();
+            Team team = teamList.stream().filter(e -> e.getName().equals(teamString)).collect(Collectors.toList()).get(0);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Log.e(TAG, "No permissions for fine or coarse location");
+                return;
+            }
+            locationProviderClient.getLastLocation().addOnSuccessListener(location -> {
+                Log.i(TAG, "LAT: " + location.getLatitude());
+                Log.i(TAG, "LON: " + location.getLongitude());
+                String lat = Double.toString(location.getLatitude());
+                String lon = Double.toString(location.getLongitude());
+                String address = "";
+                String taskLocation = "";
+                try {
+                    geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                    taskLocation = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1).get(0).getAddressLine(0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.i(TAG, "LOCATION: " + address);
+                saveProductToCloud(title, description, newStatus, team, pickedFileName, lat, lon, taskLocation);
+            });
+            clearInputs(titleEditText);
+            Snackbar.make(findViewById(R.id.view_add_task), "Task Saved", Snackbar.LENGTH_SHORT).show();
+                });
+    }
+
+    private void saveProductToCloud(String title, String body, TaskStatus status, Team team, String attachmentFileNameString, String latitude, String longitude, String location) {
+        Task newTask = Task.builder()
+                .title(title)
+                .body(body)
+                .status(status)
+                .team(team)
+                .attachment(attachmentFileNameString)
+                .latitude(latitude)
+                .longitude(longitude)
+                .location(location)
+                .build();
+        Amplify.API.mutate(
+                ModelMutation.create(newTask),
+                success -> {
+                    Log.i(TAG, "AddTaskActivity.onCreate(): added a task");
+                    InputStream pickedFileInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+                    uploadInputStreamToS3(pickedFileInputStream, pickedFileName);
+                    byteArrayOutputStream = null;
+                },
+                failure -> Log.i(TAG, "AddTaskActivity.onCreate(): failed to add a task")
+        );
+    }
+
+    private void clearInputs(EditText newFocus) {
+        ((EditText) findViewById(R.id.edit_text_add_task_task_title)).setText("");
+        ((EditText) findViewById(R.id.text_edit_add_task_task_description)).setText("");
+        ((ImageView) findViewById(R.id.image_view_add_task_activity_preview)).setVisibility(View.INVISIBLE);
+        taskStatusSpinner.setSelection(0);
+        taskTeamSpinner.setSelection(0);
+        newFocus.requestFocus();
     }
 
     private void setupCallingIntent() {
@@ -174,6 +221,20 @@ public class AddTaskActivity extends AppCompatActivity {
                 taskPreviewImageView.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    private void setupLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.e(TAG, "This app does not have permission to access either fine or coarse location");
+            return;
+        }
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        locationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+        locationProviderClient.flushLocations();
+
     }
 
     private void uploadInputStreamToS3(InputStream inputStream, String fileName) {

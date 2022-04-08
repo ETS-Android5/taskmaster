@@ -8,6 +8,9 @@ type Task @model @auth(rules: [{allow: public}]) {
   body: String!
   status: TaskStatus
   attachment: String
+  latitude: String
+  longitude: String
+  location: String
   teamId: ID! @index(name: "byTitle", sortKeyFields: ["title"])
   team: Team @belongsTo(fields: ["teamId"])
 }

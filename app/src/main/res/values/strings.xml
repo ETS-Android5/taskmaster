@@ -42,4 +42,6 @@
     <string name="log_out">Log Out</string>
     <string name="enter_password">Enter Password</string>
     <string name="attachment">Attachment</string>
+    <string name="no_task_status">No Task Status</string>
+    <string name="no_location">No Location</string>
 </resources>

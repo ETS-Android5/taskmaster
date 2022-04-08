@@ -9,13 +9,17 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -39,6 +43,8 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.TaskStatus;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -60,6 +66,8 @@ public class AddTaskActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> activityResultLauncher;
     ByteArrayOutputStream byteArrayOutputStream;
     String pickedFileName;
+    FusedLocationProviderClient locationProviderClient = null;
+    Geocoder geocoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +78,8 @@ public class AddTaskActivity extends AppCompatActivity {
         setupAnimatedBackground(constraintLayout);
         setupFloatingAddFileButton();
         setupCallingIntent();
+        setupLocation();
+
         activityResultLauncher = getActivityResultLauncher();
         teamsFuture = new CompletableFuture<>();
         List<Team> teamList = new ArrayList<>();
@@ -102,10 +112,12 @@ public class AddTaskActivity extends AppCompatActivity {
                 },
                 failure -> Log.i(TAG, "Failed to read products")
         );
+
         Button addTaskButton = findViewById(R.id.button_add_task_add_task);
         addTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 EditText titleEditText = findViewById(R.id.edit_text_add_task_task_title);
                 EditText descriptionEditText = findViewById(R.id.text_edit_add_task_task_description);
                 TaskStatus newStatus = EnumUtility.taskStatusFromString(taskStatusSpinner.getSelectedItem().toString());
@@ -174,6 +186,24 @@ public class AddTaskActivity extends AppCompatActivity {
                 taskPreviewImageView.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    private void setupLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.e(TAG, "This app does not have permission to access either fine or coarse location");
+            return;
+        }
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        locationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+        locationProviderClient.flushLocations();
+        locationProviderClient.getLastLocation().addOnSuccessListener(location -> {
+          Log.i(TAG, "LAT: " + location.getLatitude());
+          Log.i(TAG, "LON: " + location.getLongitude());
+        });
+
     }
 
     private void uploadInputStreamToS3(InputStream inputStream, String fileName) {

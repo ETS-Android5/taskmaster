@@ -35,6 +35,10 @@ export type AmplifyDependentResourcesAttributes = {
             "region": "string",
             "language": "string",
             "voice": "string"
+        },
+        "identifyText8628a3bf": {
+            "region": "string",
+            "format": "string"
         }
     }
 }

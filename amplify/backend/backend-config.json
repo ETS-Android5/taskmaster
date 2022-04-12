@@ -62,6 +62,12 @@
       "providerPlugin": "awscloudformation",
       "service": "Polly",
       "convertType": "speechGenerator"
+    },
+    "identifyText8628a3bf": {
+      "providerPlugin": "awscloudformation",
+      "service": "Rekognition",
+      "dependsOn": [],
+      "identifyType": "identifyText"
     }
   }
 }

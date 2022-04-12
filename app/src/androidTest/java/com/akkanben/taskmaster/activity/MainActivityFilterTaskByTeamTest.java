@@ -325,7 +325,7 @@ public class MainActivityFilterTaskByTeamTest {
         materialButton9.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Study Task 1"),
+                allOf(withId(R.id.text_view_task_detail_activity_task_title), withText("Study Task 1"),
                         withParent(allOf(withId(R.id.task_detail_layout),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
@@ -387,7 +387,7 @@ public class MainActivityFilterTaskByTeamTest {
         materialButton12.perform(click());
 
         ViewInteraction textView3 = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Work Task 1"),
+                allOf(withId(R.id.text_view_task_detail_activity_task_title), withText("Work Task 1"),
                         withParent(allOf(withId(R.id.task_detail_layout),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
@@ -449,7 +449,7 @@ public class MainActivityFilterTaskByTeamTest {
         materialButton15.perform(click());
 
         ViewInteraction textView5 = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("Home Task 1"),
+                allOf(withId(R.id.text_view_task_detail_activity_task_title), withText("Home Task 1"),
                         withParent(allOf(withId(R.id.task_detail_layout),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));

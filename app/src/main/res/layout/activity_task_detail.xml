@@ -7,8 +7,22 @@
     android:id="@+id/task_detail_layout"
     tools:context=".activity.TaskDetailActivity">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button_task_detail_activity_tts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:clickable="true"
+        android:contentDescription="@string/settings"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_media_play"
+        tools:ignore="ImageContrastCheck" />
+
     <TextView
-        android:id="@+id/task_detail_activity_task_title_text_view"
+        android:id="@+id/text_view_task_detail_activity_task_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -37,8 +51,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/task_detail_activity_task_title_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/task_detail_activity_task_title_text_view"
+        app:layout_constraintStart_toStartOf="@+id/text_view_task_detail_activity_task_title"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_task_detail_activity_task_title"
         tools:text="STATUS" />
 
     <ImageView

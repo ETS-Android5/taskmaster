@@ -1,7 +1,6 @@
 package com.akkanben.taskmaster.activity;
 
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -15,7 +14,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.amazonaws.mobile.auth.core.internal.util.ThreadUtils.runOnUiThread;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
@@ -41,7 +39,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -171,7 +168,7 @@ public class TaskDetailTest {
         materialButton3.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.task_detail_activity_task_title_text_view), withText("This is only a Test"),
+                allOf(withId(R.id.text_view_task_detail_activity_task_title), withText("This is only a Test"),
                         withParent(allOf(withId(R.id.task_detail_layout),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));

@@ -1,6 +1,7 @@
 package com.akkanben.taskmaster.activity;
 
 import static com.akkanben.taskmaster.activity.SettingsActivity.USERNAME_TAG;
+import static com.akkanben.taskmaster.utility.AnalyticsUtility.analyticsLogTime;
 import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBackground;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import com.akkanben.taskmaster.R;
 import com.akkanben.taskmaster.activity.authentication.LogInActivity;
 import com.akkanben.taskmaster.adapter.TaskListRecyclerViewAdapter;
 
+import com.amplifyframework.analytics.AnalyticsEvent;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.auth.AuthUser;
 import com.amplifyframework.auth.AuthUserAttribute;
@@ -30,6 +32,7 @@ import com.amplifyframework.datastore.generated.model.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        analyticsLogTime("MainActivityOnCreate");
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         ConstraintLayout constraintLayout = findViewById(R.id.main_activity_layout);
         setupAnimatedBackground(constraintLayout);
@@ -60,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String usernameStringInPreferences = preferences.getString(SettingsActivity.USERNAME_TAG, getString(R.string.my_tasks));
+        analyticsLogTime("MainActivityOnResume");
         AuthUser authUser = Amplify.Auth.getCurrentUser();
         if (authUser == null) {
             Intent goToLogInIntent = new Intent(MainActivity.this, LogInActivity.class);

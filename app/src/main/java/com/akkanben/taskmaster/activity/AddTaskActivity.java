@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Geocoder;
 import android.location.Location;
@@ -44,6 +45,8 @@ import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 import com.amplifyframework.datastore.generated.model.TaskStatus;
 import com.amplifyframework.datastore.generated.model.Team;
+import com.amplifyframework.predictions.models.TextFormatType;
+import com.amplifyframework.predictions.result.IdentifyTextResult;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -91,11 +94,13 @@ public class AddTaskActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (byteArrayOutputStream != null) {
+        if (byteArrayOutputStream != null && byteArrayOutputStream.size() > 0) {
             InputStream pickedFileInputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
             ImageView taskPreviewImageView = findViewById(R.id.image_view_add_task_activity_preview);
-            taskPreviewImageView.setImageBitmap(BitmapFactory.decodeStream(pickedFileInputStream));
+            Bitmap bitmap = BitmapFactory.decodeStream(pickedFileInputStream);
+            taskPreviewImageView.setImageBitmap(bitmap);
             taskPreviewImageView.setVisibility(View.VISIBLE);
+            detectText(bitmap);
         }
     }
 
@@ -149,15 +154,17 @@ public class AddTaskActivity extends AppCompatActivity {
                 Log.i(TAG, "LON: " + location.getLongitude());
                 String lat = Double.toString(location.getLatitude());
                 String lon = Double.toString(location.getLongitude());
-                String address = "";
                 String taskLocation = "";
-                try {
-                    geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                    taskLocation = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1).get(0).getAddressLine(0);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Log.i(TAG, "LOCATION: " + address);
+                if (!lat.equals("") && !lon.equals("")) {
+                    try {
+                        geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                        taskLocation = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1).get(0).getAddressLine(0);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "LOCATION: " + taskLocation);
+                } else
+                    taskLocation = "Location not available";
                 saveProductToCloud(title, description, newStatus, team, pickedFileName, lat, lon, taskLocation);
             });
             clearInputs(titleEditText);
@@ -217,8 +224,10 @@ public class AddTaskActivity extends AppCompatActivity {
                 pickedFileName = getFileNameFromUri(fileUri);
                 InputStream inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
                 ImageView taskPreviewImageView = findViewById(R.id.image_view_add_task_activity_preview);
-                taskPreviewImageView.setImageBitmap(BitmapFactory.decodeStream(inputStream));
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                taskPreviewImageView.setImageBitmap(bitmap);
                 taskPreviewImageView.setVisibility(View.VISIBLE);
+                detectText(bitmap);
             }
         }
     }
@@ -289,6 +298,22 @@ public class AddTaskActivity extends AppCompatActivity {
         );
         return pickingIntent;
     }
+
+    public void detectText(Bitmap image) {
+        Amplify.Predictions.identify(
+                TextFormatType.PLAIN,
+                image,
+                result -> {
+                    IdentifyTextResult identifyResult = (IdentifyTextResult) result;
+                    Log.i(TAG, "Text identified: " + identifyResult.getFullText());
+                    EditText description = findViewById(R.id.text_edit_add_task_task_description);
+                    String descriptionString = ((IdentifyTextResult) result).getFullText();
+                    runOnUiThread(() -> description.setText(descriptionString));
+                },
+                error -> Log.e("MyAmplifyApp", "Identify text failed", error)
+        );
+    }
+
 
     // Taken from https://stackoverflow.com/a/25005243/16889809
     @SuppressLint("Range")

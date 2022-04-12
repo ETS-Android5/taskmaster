@@ -118,6 +118,11 @@ TaskMaster is a task manager app for Android.
     - Adds lat and lon values to the task
     - Adds street address value to the task
   - Updates task view activity to display the street address of the task.
+
+### Lab 41
+- Adds analytic events for [onResume()](./readme-images/lab-41/onresume.png) and [onCreate()](./readme-images/lab-41/oncreate.png). 
+- Adds a text to speech button on the task detail activity that will read the task title and the task description.
+- Adds text identify feature when adding an image to a task. Identified text will appear in the task description text edit.
    
 
 ## Activities
@@ -132,11 +137,11 @@ The homepage displays a RecyclerView list of tasks that link to dynamically crea
 
 ### Task Details
 
-The task details activity displays a title, status, and description for each task. Tasks also will display an optional attachement and street address taken from GPS location. The data for the tasks are stored in the cloud via an Amplify database. The task background also changes with the status of the task (same colors as main page buttons).
+The task details activity displays a title, status, and description for each task. Tasks also will display an optional attachement and street address taken from GPS location. The data for the tasks are stored in the cloud via an Amplify database. The task background also changes with the status of the task (same colors as main page buttons). The text description and title can be read aloud with text-to-speech option via floating button.
 
-[![task page](./readme-images/lab-39/task_detail_01.png)](./readme-images/lab-39/task_detail_01.png)
-[![task page](./readme-images/lab-39/task_detail_02.png)](./readme-images/lab-39/task_detail_02.png)
-[![task page](./readme-images/lab-39/task_detail_03.png)](./readme-images/lab-39/task_detail_03.png)
+[![task page](./readme-images/lab-41/task_detail_01.png)](./readme-images/lab-41/task_detail_01.png)
+[![task page](./readme-images/lab-41/task_detail_02.png)](./readme-images/lab-41/task_detail_02.png)
+[![task page](./readme-images/lab-41/task_detail_03.png)](./readme-images/lab-41/task_detail_03.png)
 
 ### Settings
 
@@ -148,7 +153,7 @@ The settings page allows a user to change their username and current team and sa
 
 ### Add a Task
 
-The add a task view takes user input for a task name, description, task status and team. The location of the device at the time of task creation will be saved with the task as well. Submitting a new task will display a confirmation snackbar, clear the form and place the focus on the title edit text. New tasks are saved in the cloud and visible immediately after returning to the homepage.
+The add a task view takes user input for a task name, description, task status and team. The location of the device at the time of task creation will be saved with the task as well. Submitting a new task will display a confirmation snackbar, clear the form and place the focus on the title edit text. New tasks are saved in the cloud and visible immediately after returning to the homepage. Images can also be attached to tasks directly in Taskmaster or outside via sharing an image to the application. Attached images are analyzed fro text and the text is applied automaticaly to the description field if found.
 
 [![add page](./readme-images/lab-38/add_task_01.png)](./readme-images/lab-38/add_task_01.png)
 [![add page](./readme-images/lab-38/add_task_02.png)](./readme-images/lab-38/add_task_02.png)

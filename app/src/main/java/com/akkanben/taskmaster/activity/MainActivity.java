@@ -34,10 +34,14 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     String usernameString = "";
     // Global Ad Variables
     private InterstitialAd mInterstitialAd = null;
+    private RewardedAd mRewardedAd = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,6 +198,45 @@ public class MainActivity extends AppCompatActivity {
                 mInterstitialAd.show(MainActivity.this);
             else
                 Log.d(TAG, "The interstitial ad was not ready");
+        });
+
+        // REWARD AD
+        AdRequest rewardedRequest = new AdRequest.Builder().build();
+        RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917", rewardedRequest, new RewardedAdLoadCallback() {
+                @Override
+                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                    // Handle the error.
+                    Log.d(TAG, loadAdError.getMessage());
+                    mRewardedAd = null;
+                }
+
+                @Override
+                public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                    mRewardedAd = rewardedAd;
+                    Log.d(TAG, "Ad was loaded.");
+                }
+        });
+        Button rewardedButton = findViewById(R.id.button_main_activity_reward_ad);
+        rewardedButton.setOnClickListener(v -> {
+            if (mRewardedAd != null) {
+                mRewardedAd.show(MainActivity.this, new OnUserEarnedRewardListener() {
+                    @Override
+                    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                        int taskBucks = rewardItem.getAmount();
+                        String rewardType = rewardItem.getType();
+                        Log.d(TAG, "Reward earned: " + taskBucks + " type: " + rewardType);
+                        runOnUiThread(() -> {
+                            TextView taskBucksBalanceTextView = findViewById(R.id.text_view_main_activity_taskbucks_value);
+                            String taskBucksBalance = taskBucksBalanceTextView.getText().toString();
+                            int balance = Integer.parseInt(taskBucksBalance);
+                            balance += taskBucks;
+                            taskBucksBalanceTextView.setText(Integer.toString(balance));
+                        });
+                    }
+                });
+            } else {
+                Log.d(TAG, "Reward not ready");
+            }
         });
     }
 }

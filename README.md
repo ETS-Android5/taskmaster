@@ -123,17 +123,27 @@ TaskMaster is a task manager app for Android.
 - Adds analytic events for [onResume()](./readme-images/lab-41/onresume.png) and [onCreate()](./readme-images/lab-41/oncreate.png). 
 - Adds a text to speech button on the task detail activity that will read the task title and the task description.
 - Adds text identify feature when adding an image to a task. Identified text will appear in the task description text edit.
+
+### Lab 42
+- Adds Google AdMob banner ad to the base of the main activity.
+- Adds AdMob interstitial ad button proof of concept.
+- Adds AdMob rewarded ad button proof of concept with "taskbucks" reward of 10.
    
 
 ## Activities
 
 ### Homepage 
 
-The homepage displays a RecyclerView list of tasks that link to dynamically created task detail activities. All tasks are retrieved from an AWS Amplify database. If there is a current team set, the tasks displayed are filtered by that team. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity. The background slowly blends two backgrounds.
+The homepage displays a RecyclerView list of tasks that link to dynamically created task detail activities. All tasks are retrieved from an AWS Amplify database. If there is a current team set, the tasks displayed are filtered by that team. The top right of the main activity has a floating action button that links to the settings activity. The main page also still includes buttons that link to the add task activity and all tasks activity. The background slowly blends two backgrounds. 
+
+The homepage also includes concepts for ads. The base of the homepage has a banner ad. There are two buttons for demoing interstitial and rewarded ads as well. Rewarded ads give "taskbucks" which are reflected on the page.
 
 [![main page](./readme-images/lab-36/main_01.png)](./readme-images/lab-36/main_01.png)
 [![main page](./readme-images/lab-36/main_02.png)](./readme-images/lab-36/main_02.png)
 [![main page](./readme-images/lab-36/main_03.png)](./readme-images/lab-36/main_03.png)
+[![main page](./readme-images/lab-42/main_04.png)](./readme-images/lab-42/main_04.png)
+[![main page](./readme-images/lab-42/main_05.png)](./readme-images/lab-42/main_05.png)
+
 
 ### Task Details
 
@@ -166,3 +176,4 @@ The sign up and vefify activities control the Amplify Auth initial setup. The lo
 [![all page](./readme-images/lab-36/sign_up_01.png)](./readme-images/lab-36/sign_up_01.png)
 [![all page](./readme-images/lab-36/verify_01.png)](./readme-images/lab-36/verify_01.png)
 [![all page](./readme-images/lab-36/log_in_01.png)](./readme-images/lab-36/log_in_01.png)
+

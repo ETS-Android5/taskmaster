@@ -4,6 +4,7 @@ import static com.akkanben.taskmaster.activity.SettingsActivity.USERNAME_TAG;
 import static com.akkanben.taskmaster.utility.AnalyticsUtility.analyticsLogTime;
 import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBackground;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +30,18 @@ import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.ads.rewarded.RewardItem;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -47,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences preferences;
     TaskListRecyclerViewAdapter taskListAdapter;
     String usernameString = "";
+    // Global Ad Variables
+    private InterstitialAd mInterstitialAd = null;
+    private RewardedAd mRewardedAd = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         setupSettingsFloatingActionButton();
         setupAddTaskButton();
         setupTaskListRecyclerView();
+        setUpAds();
     }
 
     @Override
@@ -90,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
         }
         usernameString = preferences.getString(SettingsActivity.USERNAME_TAG, getString(R.string.my_tasks));
         if (usernameString.equals("") || usernameString.equals(getString(R.string.my_tasks)))
-            ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.my_tasks));
+            ((TextView) findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.my_tasks));
         else
-            ((TextView)findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.usernames_tasks, usernameString));
+            ((TextView) findViewById(R.id.main_activity_my_tasks_text_view)).setText(getString(R.string.usernames_tasks, usernameString));
         setupTaskListFromDatabase();
         taskListAdapter.updateListData(taskList);
     }
@@ -109,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                             taskList.add(task);
                     }
                     runOnUiThread(() -> taskListAdapter.notifyDataSetChanged());
-        },
+                },
                 failure -> Log.i(TAG, "Failed to read products")
         );
     }
@@ -142,5 +159,84 @@ public class MainActivity extends AppCompatActivity {
         taskListRecyclerView.setLayoutManager(taskListLayoutManager);
         taskListAdapter = new TaskListRecyclerViewAdapter(taskList, this);
         taskListRecyclerView.setAdapter(taskListAdapter);
+    }
+
+    private void setUpAds() {
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+            }
+        });
+
+        // BANNER AD
+        AdView bannerView = findViewById(R.id.ad_view_main_activity_banner);
+        AdRequest bannerRequest = new AdRequest.Builder().build();
+        bannerView.loadAd(bannerRequest);
+
+        // INTERSTITIAL AD
+        AdRequest interstitialRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(
+                this,
+                "ca-app-pub-3940256099942544/1033173712",
+                interstitialRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        Log.i(TAG, "Interstitial ad failed to load");
+                        mInterstitialAd = null;
+                    }
+
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        mInterstitialAd = interstitialAd;
+                        Log.i(TAG, "Interstitial ad loaded");
+                    }
+                });
+        Button interstitialButton = findViewById(R.id.button_main_activity_interstitial_ad);
+        interstitialButton.setOnClickListener(v -> {
+            if (mInterstitialAd != null)
+                mInterstitialAd.show(MainActivity.this);
+            else
+                Log.d(TAG, "The interstitial ad was not ready");
+        });
+
+        // REWARD AD
+        AdRequest rewardedRequest = new AdRequest.Builder().build();
+        RewardedAd.load(this, "ca-app-pub-3940256099942544/5224354917", rewardedRequest, new RewardedAdLoadCallback() {
+                @Override
+                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                    // Handle the error.
+                    Log.d(TAG, loadAdError.getMessage());
+                    mRewardedAd = null;
+                }
+
+                @Override
+                public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+                    mRewardedAd = rewardedAd;
+                    Log.d(TAG, "Ad was loaded.");
+                }
+        });
+        Button rewardedButton = findViewById(R.id.button_main_activity_reward_ad);
+        rewardedButton.setOnClickListener(v -> {
+            if (mRewardedAd != null) {
+                mRewardedAd.show(MainActivity.this, new OnUserEarnedRewardListener() {
+                    @Override
+                    public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                        int taskBucks = rewardItem.getAmount();
+                        String rewardType = rewardItem.getType();
+                        Log.d(TAG, "Reward earned: " + taskBucks + " type: " + rewardType);
+                        runOnUiThread(() -> {
+                            TextView taskBucksBalanceTextView = findViewById(R.id.text_view_main_activity_taskbucks_value);
+                            String taskBucksBalance = taskBucksBalanceTextView.getText().toString();
+                            int balance = Integer.parseInt(taskBucksBalance);
+                            balance += taskBucks;
+                            taskBucksBalanceTextView.setText(Integer.toString(balance));
+                        });
+                    }
+                });
+            } else {
+                Log.d(TAG, "Reward not ready");
+            }
+        });
     }
 }

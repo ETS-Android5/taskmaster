@@ -12,10 +12,10 @@
         android:id="@+id/button_main_add_task"
         android:layout_width="128dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="24dp"
         android:text="@string/add_task"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/text_view_main_activity_taskbucks_title"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -51,10 +51,61 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="24dp"
         app:layout_constraintBottom_toTopOf="@+id/button_main_add_task"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_activity_settings_floating_action_button" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/ad_view_main_activity_banner"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button_main_activity_interstitial_ad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:text="Interstitial"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button_main_add_task" />
+
+    <Button
+        android:id="@+id/button_main_activity_reward_ad"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Reward"
+        app:layout_constraintEnd_toEndOf="@+id/button_main_activity_interstitial_ad"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/button_main_activity_interstitial_ad"
+        app:layout_constraintTop_toBottomOf="@+id/button_main_activity_interstitial_ad" />
+
+    <TextView
+        android:id="@+id/text_view_main_activity_taskbucks_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="TaskBucks:"
+        app:layout_constraintBottom_toTopOf="@+id/ad_view_main_activity_banner"
+        app:layout_constraintStart_toStartOf="@+id/button_main_add_task" />
+
+    <TextView
+        android:id="@+id/text_view_main_activity_taskbucks_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="0"
+        app:layout_constraintStart_toEndOf="@+id/text_view_main_activity_taskbucks_title"
+        app:layout_constraintTop_toTopOf="@+id/text_view_main_activity_taskbucks_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

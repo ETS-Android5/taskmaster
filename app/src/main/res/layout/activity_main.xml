@@ -99,4 +99,13 @@
         app:layout_constraintBottom_toTopOf="@+id/ad_view_main_activity_banner"
         app:layout_constraintStart_toStartOf="@+id/button_main_add_task" />
 
+    <TextView
+        android:id="@+id/text_view_main_activity_taskbucks_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/text_view_main_activity_taskbucks_title"
+        app:layout_constraintTop_toTopOf="@+id/text_view_main_activity_taskbucks_title"
+        tools:text="100" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

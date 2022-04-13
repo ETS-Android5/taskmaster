@@ -4,6 +4,7 @@ import static com.akkanben.taskmaster.activity.SettingsActivity.USERNAME_TAG;
 import static com.akkanben.taskmaster.utility.AnalyticsUtility.analyticsLogTime;
 import static com.akkanben.taskmaster.utility.AnimationUtility.setupAnimatedBackground;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +30,11 @@ import com.amplifyframework.auth.AuthUserAttribute;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Task;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -59,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         setupSettingsFloatingActionButton();
         setupAddTaskButton();
         setupTaskListRecyclerView();
+        setUpAds();
     }
 
     @Override
@@ -142,5 +149,18 @@ public class MainActivity extends AppCompatActivity {
         taskListRecyclerView.setLayoutManager(taskListLayoutManager);
         taskListAdapter = new TaskListRecyclerViewAdapter(taskList, this);
         taskListRecyclerView.setAdapter(taskListAdapter);
+    }
+
+    private void setUpAds() {
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {}
+        });
+        // BANNER AD
+        AdView bannerView = findViewById(R.id.ad_view_main_activity_banner);
+        AdRequest bannerRequest = new AdRequest.Builder().build();
+        bannerView.loadAd(bannerRequest);
+
+
     }
 }

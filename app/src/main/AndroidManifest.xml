@@ -12,6 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Taskmaster">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1272116258753001~6738462262" />
         <activity
             android:name=".activity.authentication.VerifyActivity"
             android:exported="false" />

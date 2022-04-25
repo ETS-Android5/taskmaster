@@ -1,16 +1,10 @@
-<style>
-  img {
-    max-height: 300px;
-  }
-</style>
-
 # TaskMaster
 
 TaskMaster is a task manager app for Android.
 
 ## Changelog
 
-### Lab 26
+### Version 0.01
 
 - Added a homepage that has a placeholder image and two buttons, one that links to the add a task activity and another that links to the all tasks activity.
 - Added a task view that takes user input for a task name and description. 
@@ -18,7 +12,7 @@ TaskMaster is a task manager app for Android.
   - These features are superficial at the moment and will reset each time the view is loaded.
 - Added an all tasks view that will someday be home to a list of current tasks. Currently there is just a placeholder image and the title.
 
-### Lab 27
+### Version 0.02
 
 - Re-worked the homepage to include a list of 3 static tasks.
 - Added a task details activity.
@@ -30,7 +24,7 @@ TaskMaster is a task manager app for Android.
   - The value in the textedit field also reflects the updated change when the user returns.
   - If the user hasn't saved a username yet or changes the value to an empty string, the main activity displays "My Tasks".
 
-### Lab 28
+### Version 0.03
 
 - Added a model for tasks with an enum for possible task status.
 - Replaced static task buttons on the homepage with a RecyclerView list of task buttons.
@@ -38,7 +32,7 @@ TaskMaster is a task manager app for Android.
   - Task buttons are dynamically colored based on their task status.
 - Updated the task details activity to include task status and description for the specific task.
 
-### Lab 29
+### Version 0.04
 
 - Added a local SQLite database with Android Room.
   - New tasks are saved to the database.
@@ -47,7 +41,7 @@ TaskMaster is a task manager app for Android.
   - A snackbar appears after adding a task to let the user know the task was saved.
   - Fields are cleared and focus it put on the title edit text for a new task to be input.
 
-### Lab 31
+### Version 0.05
 
 - Updated appearance
   - Added animated background to main, settings, and add task pages.
@@ -55,7 +49,7 @@ TaskMaster is a task manager app for Android.
 - Added more robust Espresso tests for the main, add task, and settings activities.
   - Tests clear data before testing and remove any data created post test.
 
-### Lab 32
+### Version 0.06
 
 - Removes local Room database.
 - Removes local models.
@@ -66,7 +60,7 @@ TaskMaster is a task manager app for Android.
 - Adds EnumUtil class to allow for continued usage of TaskStatus enums.
 - Tests reworked to use Amplify cloud database.
 
-### Lab 33
+### Version 0.07
 
 - Add new Team feature.
   - Tasks are part of a team when created.
@@ -75,7 +69,7 @@ TaskMaster is a task manager app for Android.
 - Update to settings activity to allow saving a current team to shared preferences.
   - The main activity filters the recycler view based on the current saved preference.
 
-### Lab 34
+### Version 0.08
 
 - Cleans up commented code, whitespace and unused imports.
 - Fixes any Android Studio warnings related to accessibility. 
@@ -84,7 +78,7 @@ TaskMaster is a task manager app for Android.
 - App is currently in review on the Google Play Store.
   - After review the Play Store link will be [](https://play.google.com/store/apps/details?id=com.akkanben.taskmaster)
 
-### Lab 35
+### Version 0.09
 
 - Adds Amplify Auth
   - If the user is not logged in the app launches to the log in activity.
@@ -96,7 +90,7 @@ TaskMaster is a task manager app for Android.
 - The currently logged in user's nickname appears as before with "My Tasks" if the user's name is an empty string.
 - The all tasks activity has been removed as well as the button for all tasks on the main activity.
 
-### Lab 37
+### Version 0.10
 
 - Adds Amplify Storage
   - Adding a task has an optional attachement component.
@@ -105,13 +99,15 @@ TaskMaster is a task manager app for Android.
     - The attachement is saved in AWS S3 and the key is saved with the task in DynamoDB.
   - The task details activity has been updated to display the image of the task if one exists.
 
-### Lab 38
+### Version 0.11
+
 - Updates add task to include image thumbnail preview.
 - Adds an intent filter for images to initiate an new task.
   - Image from intent updates image thumbnail and saves along with the task
   - Intent image uploads to S3.
 
-### Lab 39
+### Version 0.12
+
 - Refacors code into smaller functions in add task activity.
 - Adds locations to tasks
   - Updates add task to grab the current location.
@@ -119,16 +115,17 @@ TaskMaster is a task manager app for Android.
     - Adds street address value to the task
   - Updates task view activity to display the street address of the task.
 
-### Lab 41
+### Version 0.13
+
 - Adds analytic events for [onResume()](./readme-images/lab-41/onresume.png) and [onCreate()](./readme-images/lab-41/oncreate.png). 
 - Adds a text to speech button on the task detail activity that will read the task title and the task description.
 - Adds text identify feature when adding an image to a task. Identified text will appear in the task description text edit.
 
-### Lab 42
+### Version 0.14
+
 - Adds Google AdMob banner ad to the base of the main activity.
 - Adds AdMob interstitial ad button proof of concept.
 - Adds AdMob rewarded ad button proof of concept with "taskbucks" reward of 10.
-   
 
 ## Activities
 

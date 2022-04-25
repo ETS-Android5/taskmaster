@@ -1,6 +1,6 @@
 # TaskMaster
 
-TaskMaster is a task manager app for Android.
+TaskMaster is a task manager application for Android. Version 0.06 is currently available on the [Google Play Store](https://play.google.com/store/apps/details?id=com.akkanben.taskmaster)
 
 ## Changelog
 
